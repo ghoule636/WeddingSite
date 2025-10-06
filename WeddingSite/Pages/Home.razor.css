@@ -1,26 +1,83 @@
+.language-selector,
 .hero {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6rem 1.5rem;
-    min-height: 100vh;
     text-align: center;
-    background: linear-gradient(135deg, rgba(27, 110, 194, 0.9), rgba(125, 56, 163, 0.9));
+    background-image: linear-gradient(135deg, rgba(27, 110, 194, 0.75), rgba(6, 94, 35, 0.75)), url("/images/hero.jpg");
     background-size: cover;
     background-position: center;
     color: #fff;
 }
 
+.language-selector__content,
 .hero__content {
+    width: min(100%, 40rem);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     align-items: center;
-    max-width: 40rem;
+    gap: 1.25rem;
+}
+
+.language-selector__heading {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+    font-weight: 700;
+    margin: 0;
+}
+
+.language-selector__description {
+    margin: 0;
+    max-width: 28rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.language-selector__buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.language-selector__button {
+    min-width: 10rem;
+    padding: 0.85rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.language-selector__button:hover,
+.language-selector__button:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hero__language-toggle {
+    align-self: flex-end;
+    margin-bottom: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.hero__language-toggle:hover,
+.hero__language-toggle:focus {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .hero__eyebrow {
-    font-size: 0.95rem;
+    font-size: 1rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 600;
@@ -44,17 +101,19 @@
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 999px;
-}
-
-.hero__eyebrow--es,
-.hero__date--es,
-.hero__message--es {
-    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 @media (max-width: 640px) {
+
+    .language-selector,
     .hero {
         padding: 4rem 1.25rem;
+    }
+
+    .language-selector__buttons {
+        gap: 0.75rem;
     }
 
     .hero__message {

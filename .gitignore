@@ -1,0 +1,40 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+artifacts/
+
+# Diagnostic results
+TestResults/
+*.coverage
+*.coveragexml
+*.codecov
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+~$*
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE caches
+.vs/
+.idea/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+# Node tooling
+node_modules/
+
+# Keep generated output in repo
+!output/

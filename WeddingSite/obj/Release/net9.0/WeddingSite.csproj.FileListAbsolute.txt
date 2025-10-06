@@ -199,8 +199,6 @@ C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_fr
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.2c7o6mmv05.wasm
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.fuficndj9l.pdb
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\blazor.boot.json
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\blazor.webassembly.js.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.z6jo10m0rd.wasm.gz
@@ -403,8 +401,6 @@ C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_fr
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.2c7o6mmv05.wasm.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.fuficndj9l.pdb.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\blazor.boot.json.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\WeddingSite.staticwebassets.runtime.json
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\WeddingSite.staticwebassets.endpoints.json
@@ -866,10 +862,7 @@ C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\9nbobjbk46-0k59exqm8k.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\m0y30ujlr5-63fj8s7r0e.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\qdirr2174f-owettvje75.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\wrbypll0wz-iag0ou56lh.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\tpis1rfmud-md9yvkcqlf.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\pb2gyb6xqw-9jf5cs9qx7.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ql4yks4gxh-9jf5cs9qx7.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\24h7cp60hs-z6jo10m0rd.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\yzz8i1x13j-65wbz7t8mt.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\m7gy37o0ob-ysqd97eroy.gz
@@ -1070,9 +1063,6 @@ C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\hbccedec85-tjcz0u77k5.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ubbsfu4fhh-tptq2av103.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\fu64ojwyne-lfu7j35m59.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ddr78scvg1-2c7o6mmv05.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\34em1ocnbc-fuficndj9l.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\z0wwoa6lwg-o4dedcrjhf.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\staticwebassets.build.json
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\staticwebassets.build.json.cache
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\staticwebassets.development.json
@@ -1082,3 +1072,12 @@ C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\WeddingSite
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\refint\WeddingSite.dll
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\WeddingSite.pdb
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\ref\WeddingSite.dll
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.lae04181w6.wasm
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.kd9hqliqsz.pdb
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.lae04181w6.wasm.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.kd9hqliqsz.pdb.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\pb2gyb6xqw-7t9nnifc1s.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ql4yks4gxh-7t9nnifc1s.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ddr78scvg1-lae04181w6.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\34em1ocnbc-kd9hqliqsz.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\z0wwoa6lwg-mqfvppedl6.gz

@@ -1,20 +1,147 @@
 @page "/"
+@using System.Collections.Generic
+@inject NavigationManager Navigation
 
-<PageTitle>You're Invited!</PageTitle>
+@if (selectedLanguage is null)
+{
+    <PageTitle>Choose Your Language</PageTitle>
 
-<section class="hero">
-    <div class="hero__content">
-        <p class="hero__eyebrow">You're invited to our wedding!</p>
-        <p class="hero__eyebrow hero__eyebrow--es">¡Estás invitado a nuestra boda!</p>
+    <section class="language-selector">
+        <div class="language-selector__content">
+            <div class="language-selector__buttons">
+                <button type="button" class="language-selector__button" @onclick="() => SetLanguage(EnglishLanguage)">
+                    English
+                </button>
+                <button type="button" class="language-selector__button" @onclick="() => SetLanguage(SpanishLanguage)">
+                    Espa&#241;ol
+                </button>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <PageTitle>@CurrentContent.PageTitle</PageTitle>
 
-        <h1 class="hero__date">April 18 · Colombia</h1>
-        <h2 class="hero__date hero__date--es">18 de abril · Colombia</h2>
+    <section class="hero">
+        <div class="hero__content">
+            <button type="button" class="hero__language-toggle" @onclick="ResetLanguage">
+                @CurrentContent.ChangeLanguageLabel
+            </button>
 
-        <p class="hero__message">We can't wait to celebrate with you.</p>
-        <p class="hero__message hero__message--es">No vemos la hora de celebrar contigo.</p>
+            <p class="hero__eyebrow">@CurrentContent.Eyebrow</p>
+            <h1 class="hero__date">@CurrentContent.DateLine</h1>
+            <p class="hero__message">@CurrentContent.Message</p>
 
-        <a class="btn btn-primary btn-lg hero__cta" href="/rsvp">
-            RSVP · Confirmar asistencia
-        </a>
-    </div>
-</section>
+            <a class="btn btn-primary btn-lg hero__cta" href="/rsvp">
+                @CurrentContent.CtaText
+            </a>
+        </div>
+    </section>
+}
+
+@code {
+    private const string EnglishLanguage = "en";
+    private const string SpanishLanguage = "es";
+
+    private readonly Dictionary<string, LanguageContent> contentByLanguage = new()
+    {
+        [EnglishLanguage] = new LanguageContent
+        {
+            PageTitle = "You're Invited!",
+            Eyebrow = "You're invited to our wedding!",
+            DateLine = "April 18 \u00B7 Colombia",
+            Message = "We can't wait to celebrate with you.",
+            CtaText = "RSVP",
+            ChangeLanguageLabel = "Need another language?"
+        },
+        [SpanishLanguage] = new LanguageContent
+        {
+            PageTitle = "\u00A1Est\u00E1s invitado!",
+            Eyebrow = "\u00A1Est\u00E1s invitado a nuestra boda!",
+            DateLine = "18 de abril \u00B7 Colombia",
+            Message = "No vemos la hora de celebrar contigo.",
+            CtaText = "Confirmar asistencia",
+            ChangeLanguageLabel = "\u00BFNecesitas otro idioma?"
+        }
+    };
+
+    private string? selectedLanguage;
+
+    private LanguageContent CurrentContent => contentByLanguage[selectedLanguage!];
+
+    protected override void OnParametersSet()
+    {
+        selectedLanguage = null;
+
+        var languageFromUri = ReadLanguageFromUri();
+
+        if (languageFromUri is not null &&
+        contentByLanguage.ContainsKey(languageFromUri))
+        {
+            selectedLanguage = languageFromUri;
+        }
+    }
+
+    private void SetLanguage(string language)
+    {
+        if (!contentByLanguage.ContainsKey(language))
+        {
+            return;
+        }
+
+        selectedLanguage = language;
+        Navigate(language);
+    }
+
+    private void ResetLanguage()
+    {
+        selectedLanguage = null;
+        Navigate(null);
+    }
+
+    private void Navigate(string? language)
+    {
+        var absoluteUri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var baseUri = absoluteUri.GetLeftPart(UriPartial.Path);
+        var destination = language is null ? baseUri : $"{baseUri}?lang={language}";
+
+        Navigation.NavigateTo(destination);
+    }
+
+    private string? ReadLanguageFromUri()
+    {
+        var absoluteUri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var rawQuery = absoluteUri.Query;
+
+        if (string.IsNullOrEmpty(rawQuery))
+        {
+            return null;
+        }
+
+        var parameters = rawQuery.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var parameter in parameters)
+        {
+            var parts = parameter.Split('=', 2, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length == 2 &&
+            string.Equals(parts[0], "lang", StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(parts[1]);
+            }
+        }
+
+        return null;
+    }
+
+    private sealed class LanguageContent
+    {
+        public required string PageTitle { get; init; }
+        public required string Eyebrow { get; init; }
+        public required string DateLine { get; init; }
+        public required string Message { get; init; }
+        public required string CtaText { get; init; }
+        public required string ChangeLanguageLabel { get; init; }
+    }
+}

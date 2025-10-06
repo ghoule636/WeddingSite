@@ -1763,11 +1763,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
+      "projectUniqueName": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
       "projectName": "WeddingSite",
-      "projectPath": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
+      "projectPath": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
       "packagesPath": "C:\\Users\\Gabe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\obj\\",
+      "outputPath": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1782,6 +1782,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1839,12 +1840,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-            "version": "[9.0.9, 9.0.9]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
