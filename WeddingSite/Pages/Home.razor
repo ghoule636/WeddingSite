@@ -7,19 +7,13 @@
 
     <section class="language-selector">
         <div class="language-selector__content">
-            <h1 class="language-selector__heading">Choose your language</h1>
-            <p class="language-selector__description">
-                Select the language you would like to view the invitation in.
-            </p>
             <div class="language-selector__buttons">
-                <button type="button"
-                        class="language-selector__button"
-                        @onclick="() => SetLanguage(LanguageHelper.English)">
+                <button type="button" class="language-selector__button"
+                    @onclick="() => SetLanguage(LanguageHelper.English)">
                     English
                 </button>
-                <button type="button"
-                        class="language-selector__button"
-                        @onclick="() => SetLanguage(LanguageHelper.Spanish)">
+                <button type="button" class="language-selector__button"
+                    @onclick="() => SetLanguage(LanguageHelper.Spanish)">
                     Espa&#241;ol
                 </button>
             </div>
@@ -32,9 +26,7 @@ else
 
     <section class="hero">
         <div class="hero__content">
-            <button type="button"
-                    class="hero__language-toggle"
-                    @onclick="ResetLanguage">
+            <button type="button" class="hero__language-toggle" @onclick="ResetLanguage">
                 @CurrentContent.ChangeLanguageLabel
             </button>
 
@@ -83,7 +75,7 @@ else
         var languageFromUri = LanguageHelper.GetLanguageFromUri(Navigation);
 
         if (languageFromUri is not null &&
-            contentByLanguage.ContainsKey(languageFromUri))
+        contentByLanguage.ContainsKey(languageFromUri))
         {
             selectedLanguage = languageFromUri;
         }
@@ -107,7 +99,7 @@ else
     }
 
     private string BuildRsvpLink() =>
-        LanguageHelper.AppendLanguageQuery("/rsvp", selectedLanguage);
+    LanguageHelper.AppendLanguageQuery("/rsvp", selectedLanguage);
 
     private sealed class LanguageContent
     {
