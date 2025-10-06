@@ -1,5 +1,4 @@
 @page "/"
-@using System.Collections.Generic
 @inject NavigationManager Navigation
 
 @if (selectedLanguage is null)
@@ -8,11 +7,19 @@
 
     <section class="language-selector">
         <div class="language-selector__content">
+            <h1 class="language-selector__heading">Choose your language</h1>
+            <p class="language-selector__description">
+                Select the language you would like to view the invitation in.
+            </p>
             <div class="language-selector__buttons">
-                <button type="button" class="language-selector__button" @onclick="() => SetLanguage(EnglishLanguage)">
+                <button type="button"
+                        class="language-selector__button"
+                        @onclick="() => SetLanguage(LanguageHelper.English)">
                     English
                 </button>
-                <button type="button" class="language-selector__button" @onclick="() => SetLanguage(SpanishLanguage)">
+                <button type="button"
+                        class="language-selector__button"
+                        @onclick="() => SetLanguage(LanguageHelper.Spanish)">
                     Espa&#241;ol
                 </button>
             </div>
@@ -25,7 +32,9 @@ else
 
     <section class="hero">
         <div class="hero__content">
-            <button type="button" class="hero__language-toggle" @onclick="ResetLanguage">
+            <button type="button"
+                    class="hero__language-toggle"
+                    @onclick="ResetLanguage">
                 @CurrentContent.ChangeLanguageLabel
             </button>
 
@@ -33,7 +42,7 @@ else
             <h1 class="hero__date">@CurrentContent.DateLine</h1>
             <p class="hero__message">@CurrentContent.Message</p>
 
-            <a class="btn btn-primary btn-lg hero__cta" href="/rsvp">
+            <a class="btn btn-primary btn-lg hero__cta" href="@BuildRsvpLink()">
                 @CurrentContent.CtaText
             </a>
         </div>
@@ -41,12 +50,9 @@ else
 }
 
 @code {
-    private const string EnglishLanguage = "en";
-    private const string SpanishLanguage = "es";
-
     private readonly Dictionary<string, LanguageContent> contentByLanguage = new()
     {
-        [EnglishLanguage] = new LanguageContent
+        [LanguageHelper.English] = new LanguageContent
         {
             PageTitle = "You're Invited!",
             Eyebrow = "You're invited to our wedding!",
@@ -55,7 +61,7 @@ else
             CtaText = "RSVP",
             ChangeLanguageLabel = "Need another language?"
         },
-        [SpanishLanguage] = new LanguageContent
+        [LanguageHelper.Spanish] = new LanguageContent
         {
             PageTitle = "\u00A1Est\u00E1s invitado!",
             Eyebrow = "\u00A1Est\u00E1s invitado a nuestra boda!",
@@ -74,10 +80,10 @@ else
     {
         selectedLanguage = null;
 
-        var languageFromUri = ReadLanguageFromUri();
+        var languageFromUri = LanguageHelper.GetLanguageFromUri(Navigation);
 
         if (languageFromUri is not null &&
-        contentByLanguage.ContainsKey(languageFromUri))
+            contentByLanguage.ContainsKey(languageFromUri))
         {
             selectedLanguage = languageFromUri;
         }
@@ -91,49 +97,17 @@ else
         }
 
         selectedLanguage = language;
-        Navigate(language);
+        LanguageHelper.NavigateToCurrentWithLanguage(Navigation, language);
     }
 
     private void ResetLanguage()
     {
         selectedLanguage = null;
-        Navigate(null);
+        LanguageHelper.NavigateToCurrentWithLanguage(Navigation, null);
     }
 
-    private void Navigate(string? language)
-    {
-        var absoluteUri = Navigation.ToAbsoluteUri(Navigation.Uri);
-        var baseUri = absoluteUri.GetLeftPart(UriPartial.Path);
-        var destination = language is null ? baseUri : $"{baseUri}?lang={language}";
-
-        Navigation.NavigateTo(destination);
-    }
-
-    private string? ReadLanguageFromUri()
-    {
-        var absoluteUri = Navigation.ToAbsoluteUri(Navigation.Uri);
-        var rawQuery = absoluteUri.Query;
-
-        if (string.IsNullOrEmpty(rawQuery))
-        {
-            return null;
-        }
-
-        var parameters = rawQuery.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries);
-
-        foreach (var parameter in parameters)
-        {
-            var parts = parameter.Split('=', 2, StringSplitOptions.RemoveEmptyEntries);
-
-            if (parts.Length == 2 &&
-            string.Equals(parts[0], "lang", StringComparison.OrdinalIgnoreCase))
-            {
-                return Uri.UnescapeDataString(parts[1]);
-            }
-        }
-
-        return null;
-    }
+    private string BuildRsvpLink() =>
+        LanguageHelper.AppendLanguageQuery("/rsvp", selectedLanguage);
 
     private sealed class LanguageContent
     {

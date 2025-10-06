@@ -1,0 +1,211 @@
+.language-selector,
+.rsvp {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 1.5rem;
+    text-align: center;
+    background-image: linear-gradient(135deg, rgba(27, 110, 194, 0.75), rgba(6, 94, 35, 0.75)), url("/images/hero.jpg");
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.language-selector__content {
+    width: min(100%, 40rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.language-selector__heading {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+    font-weight: 700;
+    margin: 0;
+}
+
+.language-selector__description {
+    margin: 0;
+    max-width: 28rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.language-selector__buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.language-selector__button {
+    min-width: 10rem;
+    padding: 0.85rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.language-selector__button:hover,
+.language-selector__button:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.rsvp__card {
+    width: min(100%, 40rem);
+    padding: 2.75rem 2.5rem;
+    border-radius: 28px;
+    background: rgba(18, 25, 42, 0.78);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.rsvp__language-toggle {
+    align-self: flex-end;
+    margin-bottom: -0.5rem;
+    padding: 0.35rem 0.75rem;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.rsvp__language-toggle:hover,
+.rsvp__language-toggle:focus {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.rsvp__heading {
+    margin: 0;
+    font-size: clamp(2rem, 6vw, 2.75rem);
+    font-weight: 700;
+    text-align: left;
+}
+
+.rsvp__subheading {
+    margin: 0;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.rsvp__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.rsvp__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.rsvp__label {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.rsvp__help {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+}
+
+.rsvp__radio-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.rsvp__radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.6rem 1rem;
+    border-radius: 18px;
+}
+
+.rsvp__radio input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+}
+
+input.form-control,
+select.form-select {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+input.form-control:focus,
+select.form-select:focus {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+}
+
+.validation-message {
+    color: #ffd7d7;
+    font-size: 0.9rem;
+}
+
+.rsvp__submit {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    padding: 0.85rem 2.75rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.rsvp__feedback {
+    margin: 0;
+    font-weight: 600;
+    color: #c9ffe3;
+}
+
+@media (max-width: 640px) {
+    .language-selector,
+    .rsvp {
+        padding: 4rem 1.25rem;
+    }
+
+    .language-selector__buttons {
+        gap: 0.75rem;
+    }
+
+    .rsvp__card {
+        padding: 2.25rem 1.75rem;
+        gap: 1.5rem;
+    }
+
+    .rsvp__radio-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rsvp__submit {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}

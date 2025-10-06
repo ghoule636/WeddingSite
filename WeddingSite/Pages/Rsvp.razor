@@ -1,0 +1,316 @@
+@page "/rsvp"
+@inject NavigationManager Navigation
+
+@if (selectedLanguage is null)
+{
+    <PageTitle>Choose Your Language</PageTitle>
+
+    <section class="language-selector">
+        <div class="language-selector__content">
+            <h1 class="language-selector__heading">Choose your language</h1>
+            <p class="language-selector__description">
+                Select the language you would like to use for the RSVP form.
+            </p>
+            <div class="language-selector__buttons">
+                <button type="button"
+                        class="language-selector__button"
+                        @onclick="() => SetLanguage(LanguageHelper.English)">
+                    English
+                </button>
+                <button type="button"
+                        class="language-selector__button"
+                        @onclick="() => SetLanguage(LanguageHelper.Spanish)">
+                    Espa&#241;ol
+                </button>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <PageTitle>@CurrentContent.PageTitle</PageTitle>
+
+    <section class="rsvp">
+        <div class="rsvp__card">
+            <button type="button"
+                    class="rsvp__language-toggle"
+                    @onclick="ResetLanguage">
+                @CurrentContent.ChangeLanguageLabel
+            </button>
+
+            <h1 class="rsvp__heading">@CurrentContent.Heading</h1>
+            <p class="rsvp__subheading">@CurrentContent.Subheading</p>
+
+            <EditForm class="rsvp__form" EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
+                <ValidationSummary />
+
+                <div class="rsvp__field">
+                    <label class="rsvp__label" for="name">@CurrentContent.NameLabel</label>
+                    <InputText id="name"
+                               class="form-control"
+                               placeholder="@CurrentContent.NamePlaceholder"
+                               @bind-Value="formModel.Name" />
+                    <ValidationMessage For="() => formModel.Name" />
+                </div>
+
+                <div class="rsvp__field">
+                    <label class="rsvp__label" for="guestCount">@CurrentContent.GuestCountLabel</label>
+                    <InputNumber id="guestCount"
+                                 class="form-control"
+                                 @bind-Value="formModel.GuestCount"
+                                 min="0"
+                                 max="12" />
+                    <small class="rsvp__help">@CurrentContent.GuestCountHelp</small>
+                    <ValidationMessage For="() => formModel.GuestCount" />
+                </div>
+
+                <div class="rsvp__field">
+                    <span class="rsvp__label">@CurrentContent.AttendanceQuestion</span>
+                    <InputRadioGroup TValue="bool?" class="rsvp__radio-group" @bind-Value="formModel.IsAttending">
+                        <div class="rsvp__radio">
+                            <InputRadio TValue="bool?" id="attend-yes" Value="@(true)" />
+                            <label for="attend-yes">@CurrentContent.AttendanceYes</label>
+                        </div>
+                        <div class="rsvp__radio">
+                            <InputRadio TValue="bool?" id="attend-no" Value="@(false)" />
+                            <label for="attend-no">@CurrentContent.AttendanceNo</label>
+                        </div>
+                    </InputRadioGroup>
+                    <ValidationMessage For="() => formModel.IsAttending" />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg rsvp__submit">
+                    @CurrentContent.SubmitLabel
+                </button>
+            </EditForm>
+
+            @if (!string.IsNullOrEmpty(submissionStatus))
+            {
+                <p class="rsvp__feedback">@submissionStatus</p>
+            }
+        </div>
+    </section>
+}
+
+@code {
+    private readonly Dictionary<string, RsvpLanguageContent> contentByLanguage = new()
+    {
+        [LanguageHelper.English] = new RsvpLanguageContent
+        {
+            PageTitle = "RSVP",
+            Heading = "Let us know if you can join us",
+            Subheading = "Please fill out the form so we can reserve your seats.",
+            NameLabel = "Name",
+            NamePlaceholder = "Your full name",
+            GuestCountLabel = "Number of guests (including you)",
+            GuestCountHelp = "You can update this later if plans change.",
+            AttendanceQuestion = "Will you be attending?",
+            AttendanceYes = "Yes, I'll be there",
+            AttendanceNo = "Sorry, I can't make it",
+            SubmitLabel = "Send RSVP",
+            ChangeLanguageLabel = "Need another language?",
+            SuccessMessage = "Thanks! Your RSVP has been recorded.",
+            NameRequiredError = "Please enter a name.",
+            GuestCountRequiredError = "Please let us know how many guests will attend.",
+            GuestCountRangeError = "Guest count must be between 0 and 12.",
+            AttendanceRequiredError = "Please let us know if you can attend."
+        },
+        [LanguageHelper.Spanish] = new RsvpLanguageContent
+        {
+            PageTitle = "Confirmar asistencia",
+            Heading = "Cu\u00E9ntanos si podr\u00E1s acompa\u00F1arnos",
+            Subheading = "Completa el formulario para reservar tus lugares.",
+            NameLabel = "Nombre",
+            NamePlaceholder = "Tu nombre completo",
+            GuestCountLabel = "N\u00FAmero de invitados (incluy\u00E9ndote)",
+            GuestCountHelp = "Si cambia algo, podr\u00E1s actualizarlo m\u00E1s adelante.",
+            AttendanceQuestion = "\u00BFPodr\u00E1s asistir?",
+            AttendanceYes = "S\u00ED, estar\u00E9 all\u00ED",
+            AttendanceNo = "Lo siento, no podr\u00E9 asistir",
+            SubmitLabel = "Enviar confirmaci\u00F3n",
+            ChangeLanguageLabel = "\u00BFNecesitas otro idioma?",
+            SuccessMessage = "\u00A1Gracias! Hemos recibido tu confirmaci\u00F3n.",
+            NameRequiredError = "Por favor ingresa un nombre.",
+            GuestCountRequiredError = "Cu\u00E9ntanos cu\u00E1ntas personas asistir\u00E1n.",
+            GuestCountRangeError = "El n\u00FAmero de invitados debe estar entre 0 y 12.",
+            AttendanceRequiredError = "Indica si podr\u00E1s asistir."
+        }
+    };
+
+    private RsvpFormModel formModel = new();
+    private EditContext? editContext;
+    private ValidationMessageStore? messageStore;
+    private string? selectedLanguage;
+    private string? submissionStatus;
+
+    private RsvpLanguageContent CurrentContent => contentByLanguage[selectedLanguage!];
+
+    protected override void OnInitialized()
+    {
+        ConfigureEditContext();
+    }
+
+    protected override void OnParametersSet()
+    {
+        selectedLanguage = null;
+
+        var languageFromUri = LanguageHelper.GetLanguageFromUri(Navigation);
+
+        if (languageFromUri is not null &&
+            contentByLanguage.ContainsKey(languageFromUri))
+        {
+            selectedLanguage = languageFromUri;
+        }
+    }
+
+    private void SetLanguage(string language)
+    {
+        if (!contentByLanguage.ContainsKey(language))
+        {
+            return;
+        }
+
+        selectedLanguage = language;
+        submissionStatus = null;
+        LanguageHelper.NavigateToCurrentWithLanguage(Navigation, language);
+    }
+
+    private void ResetLanguage()
+    {
+        selectedLanguage = null;
+        submissionStatus = null;
+        LanguageHelper.NavigateToCurrentWithLanguage(Navigation, null);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        // TODO: Wire up API call to persist RSVP information.
+        await Task.CompletedTask;
+        submissionStatus = CurrentContent.SuccessMessage;
+        formModel = new RsvpFormModel();
+        ConfigureEditContext();
+        StateHasChanged();
+    }
+
+    private void ConfigureEditContext()
+    {
+        if (editContext is not null)
+        {
+            editContext.OnValidationRequested -= HandleValidationRequested;
+            editContext.OnFieldChanged -= HandleFieldChanged;
+        }
+
+        editContext = new EditContext(formModel);
+        messageStore = new ValidationMessageStore(editContext);
+        editContext.OnValidationRequested += HandleValidationRequested;
+        editContext.OnFieldChanged += HandleFieldChanged;
+    }
+
+    private void HandleValidationRequested(object? sender, ValidationRequestedEventArgs args) =>
+        ValidateForm();
+
+    private void HandleFieldChanged(object? sender, FieldChangedEventArgs args) =>
+        ValidateForm(args.FieldIdentifier);
+
+    private void ValidateForm(FieldIdentifier? fieldToValidate = null)
+    {
+        if (messageStore is null || editContext is null)
+        {
+            return;
+        }
+
+        if (selectedLanguage is null)
+        {
+            messageStore.Clear();
+            editContext.NotifyValidationStateChanged();
+            return;
+        }
+
+        if (fieldToValidate is null)
+        {
+            messageStore.Clear();
+            ValidateName();
+            ValidateGuestCount();
+            ValidateAttendance();
+        }
+        else
+        {
+            messageStore.Clear(fieldToValidate.Value);
+
+            switch (fieldToValidate.Value.FieldName)
+            {
+                case nameof(RsvpFormModel.Name):
+                    ValidateName();
+                    break;
+                case nameof(RsvpFormModel.GuestCount):
+                    ValidateGuestCount();
+                    break;
+                case nameof(RsvpFormModel.IsAttending):
+                    ValidateAttendance();
+                    break;
+            }
+        }
+
+        editContext.NotifyValidationStateChanged();
+    }
+
+    private void ValidateName()
+    {
+        if (string.IsNullOrWhiteSpace(formModel.Name))
+        {
+            messageStore?.Add(new FieldIdentifier(formModel, nameof(RsvpFormModel.Name)), CurrentContent.NameRequiredError);
+        }
+    }
+
+    private void ValidateGuestCount()
+    {
+        var field = new FieldIdentifier(formModel, nameof(RsvpFormModel.GuestCount));
+
+        if (formModel.GuestCount is null)
+        {
+            messageStore?.Add(field, CurrentContent.GuestCountRequiredError);
+            return;
+        }
+
+        if (formModel.GuestCount < 0 || formModel.GuestCount > 12)
+        {
+            messageStore?.Add(field, CurrentContent.GuestCountRangeError);
+        }
+    }
+
+    private void ValidateAttendance()
+    {
+        if (formModel.IsAttending is null)
+        {
+            messageStore?.Add(new FieldIdentifier(formModel, nameof(RsvpFormModel.IsAttending)), CurrentContent.AttendanceRequiredError);
+        }
+    }
+
+    private sealed class RsvpLanguageContent
+    {
+        public required string PageTitle { get; init; }
+        public required string Heading { get; init; }
+        public required string Subheading { get; init; }
+        public required string NameLabel { get; init; }
+        public required string NamePlaceholder { get; init; }
+        public required string GuestCountLabel { get; init; }
+        public required string GuestCountHelp { get; init; }
+        public required string AttendanceQuestion { get; init; }
+        public required string AttendanceYes { get; init; }
+        public required string AttendanceNo { get; init; }
+        public required string SubmitLabel { get; init; }
+        public required string ChangeLanguageLabel { get; init; }
+        public required string SuccessMessage { get; init; }
+        public required string NameRequiredError { get; init; }
+        public required string GuestCountRequiredError { get; init; }
+        public required string GuestCountRangeError { get; init; }
+        public required string AttendanceRequiredError { get; init; }
+    }
+
+    private sealed class RsvpFormModel
+    {
+        public string? Name { get; set; }
+        public int? GuestCount { get; set; }
+        public bool? IsAttending { get; set; }
+    }
+}
