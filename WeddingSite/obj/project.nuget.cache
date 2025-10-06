@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NiDvwzgv4M4=",
+  "dgSpecHash": "CcgKB/qJRGY=",
   "success": true,
-  "projectFilePath": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
+  "projectFilePath": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Gabe\\.nuget\\packages\\microsoft.aspnetcore.authorization\\9.0.9\\microsoft.aspnetcore.authorization.9.0.9.nupkg.sha512",
     "C:\\Users\\Gabe\\.nuget\\packages\\microsoft.aspnetcore.components\\9.0.9\\microsoft.aspnetcore.components.9.0.9.nupkg.sha512",

@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj": {}
+    "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj": {
+    "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
+        "projectUniqueName": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
         "projectName": "WeddingSite",
-        "projectPath": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
+        "projectPath": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\WeddingSite.csproj",
         "packagesPath": "C:\\Users\\Gabe\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\obj\\",
+        "outputPath": "C:\\Users\\Gabe\\Development\\WeddingSite\\WeddingSite\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Gabe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Gabe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
