@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run and Publish",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build Blazor for Cloudflare",
+            "program": "${workspaceFolder}/bin/Release/net8.0/<YourAppName>.dll",
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false
+        }
+    ]
+}
