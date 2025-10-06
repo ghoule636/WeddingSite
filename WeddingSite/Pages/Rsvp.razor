@@ -1,4 +1,5 @@
 @page "/rsvp"
+@using System.ComponentModel.DataAnnotations
 @inject NavigationManager Navigation
 
 @if (selectedLanguage is null)
@@ -12,14 +13,12 @@
                 Select the language you would like to use for the RSVP form.
             </p>
             <div class="language-selector__buttons">
-                <button type="button"
-                        class="language-selector__button"
-                        @onclick="() => SetLanguage(LanguageHelper.English)">
+                <button type="button" class="language-selector__button"
+                    @onclick="() => SetLanguage(LanguageHelper.English)">
                     English
                 </button>
-                <button type="button"
-                        class="language-selector__button"
-                        @onclick="() => SetLanguage(LanguageHelper.Spanish)">
+                <button type="button" class="language-selector__button"
+                    @onclick="() => SetLanguage(LanguageHelper.Spanish)">
                     Espa&#241;ol
                 </button>
             </div>
@@ -32,9 +31,7 @@ else
 
     <section class="rsvp">
         <div class="rsvp__card">
-            <button type="button"
-                    class="rsvp__language-toggle"
-                    @onclick="ResetLanguage">
+            <button type="button" class="rsvp__language-toggle" @onclick="ResetLanguage">
                 @CurrentContent.ChangeLanguageLabel
             </button>
 
@@ -42,42 +39,54 @@ else
             <p class="rsvp__subheading">@CurrentContent.Subheading</p>
 
             <EditForm class="rsvp__form" EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
-                <ValidationSummary />
+                @* <ValidationSummary /> *@
 
                 <div class="rsvp__field">
                     <label class="rsvp__label" for="name">@CurrentContent.NameLabel</label>
-                    <InputText id="name"
-                               class="form-control"
-                               placeholder="@CurrentContent.NamePlaceholder"
-                               @bind-Value="formModel.Name" />
+                    <InputText id="name" class="form-control" placeholder="@CurrentContent.NamePlaceholder"
+                        @bind-Value="formModel.Name" />
                     <ValidationMessage For="() => formModel.Name" />
-                </div>
-
-                <div class="rsvp__field">
-                    <label class="rsvp__label" for="guestCount">@CurrentContent.GuestCountLabel</label>
-                    <InputNumber id="guestCount"
-                                 class="form-control"
-                                 @bind-Value="formModel.GuestCount"
-                                 min="0"
-                                 max="12" />
-                    <small class="rsvp__help">@CurrentContent.GuestCountHelp</small>
-                    <ValidationMessage For="() => formModel.GuestCount" />
                 </div>
 
                 <div class="rsvp__field">
                     <span class="rsvp__label">@CurrentContent.AttendanceQuestion</span>
                     <InputRadioGroup TValue="bool?" class="rsvp__radio-group" @bind-Value="formModel.IsAttending">
-                        <div class="rsvp__radio">
-                            <InputRadio TValue="bool?" id="attend-yes" Value="@(true)" />
-                            <label for="attend-yes">@CurrentContent.AttendanceYes</label>
-                        </div>
-                        <div class="rsvp__radio">
-                            <InputRadio TValue="bool?" id="attend-no" Value="@(false)" />
-                            <label for="attend-no">@CurrentContent.AttendanceNo</label>
-                        </div>
+                        <label class="rsvp__radio">
+                            <InputRadio TValue="bool?" Value="@(true)" />
+                            <span>@CurrentContent.AttendanceYes</span>
+                        </label>
+                        <label class="rsvp__radio">
+                            <InputRadio TValue="bool?" Value="@(false)" />
+                            <span>@CurrentContent.AttendanceNo</span>
+                        </label>
                     </InputRadioGroup>
                     <ValidationMessage For="() => formModel.IsAttending" />
                 </div>
+
+                @if (ShowAttendanceDetails)
+                {
+                    <div class="rsvp__field">
+                        <label class="rsvp__label" for="guestCount">@CurrentContent.GuestCountLabel</label>
+                        <InputNumber id="guestCount" class="form-control" @bind-Value="formModel.GuestCount" min="0" max="12" />
+                        <small class="rsvp__help">@CurrentContent.GuestCountHelp</small>
+                        <ValidationMessage For="() => formModel.GuestCount" />
+                    </div>
+
+                    <div class="rsvp__field">
+                        <label class="rsvp__label" for="email">@CurrentContent.EmailLabel</label>
+                        <InputText id="email" class="form-control" placeholder="@CurrentContent.EmailPlaceholder"
+                            @bind-Value="formModel.Email" />
+                        <ValidationMessage For="() => formModel.Email" />
+                    </div>
+
+                    <div class="rsvp__field">
+                        <label class="rsvp__label" for="allergies">@CurrentContent.AllergyLabel</label>
+                        <InputTextArea id="allergies" class="form-control rsvp__textarea"
+                            placeholder="@CurrentContent.AllergyPlaceholder" @bind-Value="formModel.AllergyNotes" rows="3" />
+                        <small class="rsvp__help">@CurrentContent.AllergyHelp</small>
+                        <ValidationMessage For="() => formModel.AllergyNotes" />
+                    </div>
+                }
 
                 <button type="submit" class="btn btn-primary btn-lg rsvp__submit">
                     @CurrentContent.SubmitLabel
@@ -93,6 +102,8 @@ else
 }
 
 @code {
+    private static readonly EmailAddressAttribute EmailValidator = new();
+
     private readonly Dictionary<string, RsvpLanguageContent> contentByLanguage = new()
     {
         [LanguageHelper.English] = new RsvpLanguageContent
@@ -107,13 +118,20 @@ else
             AttendanceQuestion = "Will you be attending?",
             AttendanceYes = "Yes, I'll be there",
             AttendanceNo = "Sorry, I can't make it",
+            EmailLabel = "Email address",
+            EmailPlaceholder = "you@example.com",
+            AllergyLabel = "Food allergies",
+            AllergyPlaceholder = "Let us know if you or your guests have any allergies",
+            AllergyHelp = "Sharing details helps us coordinate with the catering team.",
             SubmitLabel = "Send RSVP",
             ChangeLanguageLabel = "Need another language?",
             SuccessMessage = "Thanks! Your RSVP has been recorded.",
             NameRequiredError = "Please enter a name.",
             GuestCountRequiredError = "Please let us know how many guests will attend.",
             GuestCountRangeError = "Guest count must be between 0 and 12.",
-            AttendanceRequiredError = "Please let us know if you can attend."
+            AttendanceRequiredError = "Please let us know if you can attend.",
+            EmailRequiredError = "Please share an email so we can follow up.",
+            EmailInvalidError = "That doesn't look like a valid email address."
         },
         [LanguageHelper.Spanish] = new RsvpLanguageContent
         {
@@ -127,13 +145,20 @@ else
             AttendanceQuestion = "\u00BFPodr\u00E1s asistir?",
             AttendanceYes = "S\u00ED, estar\u00E9 all\u00ED",
             AttendanceNo = "Lo siento, no podr\u00E9 asistir",
+            EmailLabel = "Correo electr\u00F3nico",
+            EmailPlaceholder = "t\u00FA@ejemplo.com",
+            AllergyLabel = "Alergias alimentarias",
+            AllergyPlaceholder = "Cu\u00E9ntanos si t\u00FA o tus invitados tienen alguna alergia",
+            AllergyHelp = "Con esta informaci\u00F3n coordinamos mejor con el equipo de cocina.",
             SubmitLabel = "Enviar confirmaci\u00F3n",
             ChangeLanguageLabel = "\u00BFNecesitas otro idioma?",
             SuccessMessage = "\u00A1Gracias! Hemos recibido tu confirmaci\u00F3n.",
             NameRequiredError = "Por favor ingresa un nombre.",
             GuestCountRequiredError = "Cu\u00E9ntanos cu\u00E1ntas personas asistir\u00E1n.",
             GuestCountRangeError = "El n\u00FAmero de invitados debe estar entre 0 y 12.",
-            AttendanceRequiredError = "Indica si podr\u00E1s asistir."
+            AttendanceRequiredError = "Indica si podr\u00E1s asistir.",
+            EmailRequiredError = "Comparte un correo para poder contactarte.",
+            EmailInvalidError = "Ese correo electr\u00F3nico no parece v\u00E1lido."
         }
     };
 
@@ -144,6 +169,7 @@ else
     private string? submissionStatus;
 
     private RsvpLanguageContent CurrentContent => contentByLanguage[selectedLanguage!];
+    private bool ShowAttendanceDetails => formModel.IsAttending == true;
 
     protected override void OnInitialized()
     {
@@ -157,7 +183,7 @@ else
         var languageFromUri = LanguageHelper.GetLanguageFromUri(Navigation);
 
         if (languageFromUri is not null &&
-            contentByLanguage.ContainsKey(languageFromUri))
+        contentByLanguage.ContainsKey(languageFromUri))
         {
             selectedLanguage = languageFromUri;
         }
@@ -207,10 +233,10 @@ else
     }
 
     private void HandleValidationRequested(object? sender, ValidationRequestedEventArgs args) =>
-        ValidateForm();
+    ValidateForm();
 
     private void HandleFieldChanged(object? sender, FieldChangedEventArgs args) =>
-        ValidateForm(args.FieldIdentifier);
+    ValidateForm(args.FieldIdentifier);
 
     private void ValidateForm(FieldIdentifier? fieldToValidate = null)
     {
@@ -232,6 +258,7 @@ else
             ValidateName();
             ValidateGuestCount();
             ValidateAttendance();
+            ValidateEmail();
         }
         else
         {
@@ -247,6 +274,11 @@ else
                     break;
                 case nameof(RsvpFormModel.IsAttending):
                     ValidateAttendance();
+                    ValidateGuestCount();
+                    ValidateEmail();
+                    break;
+                case nameof(RsvpFormModel.Email):
+                    ValidateEmail();
                     break;
             }
         }
@@ -266,6 +298,13 @@ else
     {
         var field = new FieldIdentifier(formModel, nameof(RsvpFormModel.GuestCount));
 
+        messageStore?.Clear(field);
+
+        if (formModel.IsAttending != true)
+        {
+            return;
+        }
+
         if (formModel.GuestCount is null)
         {
             messageStore?.Add(field, CurrentContent.GuestCountRequiredError);
@@ -282,7 +321,36 @@ else
     {
         if (formModel.IsAttending is null)
         {
-            messageStore?.Add(new FieldIdentifier(formModel, nameof(RsvpFormModel.IsAttending)), CurrentContent.AttendanceRequiredError);
+            messageStore?.Add(new FieldIdentifier(formModel, nameof(RsvpFormModel.IsAttending)),
+            CurrentContent.AttendanceRequiredError);
+        }
+    }
+
+    private void ValidateEmail()
+    {
+        var field = new FieldIdentifier(formModel, nameof(RsvpFormModel.Email));
+        messageStore?.Clear(field);
+
+        if (formModel.IsAttending != true)
+        {
+            if (!string.IsNullOrWhiteSpace(formModel.Email) &&
+            !EmailValidator.IsValid(formModel.Email))
+            {
+                messageStore?.Add(field, CurrentContent.EmailInvalidError);
+            }
+
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(formModel.Email))
+        {
+            messageStore?.Add(field, CurrentContent.EmailRequiredError);
+            return;
+        }
+
+        if (!EmailValidator.IsValid(formModel.Email))
+        {
+            messageStore?.Add(field, CurrentContent.EmailInvalidError);
         }
     }
 
@@ -298,6 +366,11 @@ else
         public required string AttendanceQuestion { get; init; }
         public required string AttendanceYes { get; init; }
         public required string AttendanceNo { get; init; }
+        public required string EmailLabel { get; init; }
+        public required string EmailPlaceholder { get; init; }
+        public required string AllergyLabel { get; init; }
+        public required string AllergyPlaceholder { get; init; }
+        public required string AllergyHelp { get; init; }
         public required string SubmitLabel { get; init; }
         public required string ChangeLanguageLabel { get; init; }
         public required string SuccessMessage { get; init; }
@@ -305,6 +378,8 @@ else
         public required string GuestCountRequiredError { get; init; }
         public required string GuestCountRangeError { get; init; }
         public required string AttendanceRequiredError { get; init; }
+        public required string EmailRequiredError { get; init; }
+        public required string EmailInvalidError { get; init; }
     }
 
     private sealed class RsvpFormModel
@@ -312,5 +387,7 @@ else
         public string? Name { get; set; }
         public int? GuestCount { get; set; }
         public bool? IsAttending { get; set; }
+        public string? Email { get; set; }
+        public string? AllergyNotes { get; set; }
     }
 }
