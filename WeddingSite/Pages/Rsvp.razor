@@ -1,6 +1,8 @@
 @page "/rsvp"
-@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Json
 @inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IConfiguration Configuration
 
 @if (selectedLanguage is null)
 {
@@ -73,13 +75,6 @@ else
                     </div>
 
                     <div class="rsvp__field">
-                        <label class="rsvp__label" for="email">@CurrentContent.EmailLabel</label>
-                        <InputText id="email" class="form-control" placeholder="@CurrentContent.EmailPlaceholder"
-                            @bind-Value="formModel.Email" />
-                        <ValidationMessage For="() => formModel.Email" />
-                    </div>
-
-                    <div class="rsvp__field">
                         <label class="rsvp__label" for="allergies">@CurrentContent.AllergyLabel</label>
                         <InputTextArea id="allergies" class="form-control rsvp__textarea"
                             placeholder="@CurrentContent.AllergyPlaceholder" @bind-Value="formModel.AllergyNotes" rows="3" />
@@ -88,22 +83,23 @@ else
                     </div>
                 }
 
-                <button type="submit" class="btn btn-primary btn-lg rsvp__submit">
+                <button type="submit" class="btn btn-primary btn-lg rsvp__submit" disabled="@isSubmitting"
+                    aria-busy="@isSubmitting">
                     @CurrentContent.SubmitLabel
                 </button>
             </EditForm>
 
             @if (!string.IsNullOrEmpty(submissionStatus))
             {
-                <p class="rsvp__feedback">@submissionStatus</p>
+                <p class="@(submissionError ? "rsvp__feedback rsvp__feedback--error" : "rsvp__feedback")">
+                    @submissionStatus
+                </p>
             }
         </div>
     </section>
 }
 
 @code {
-    private static readonly EmailAddressAttribute EmailValidator = new();
-
     private readonly Dictionary<string, RsvpLanguageContent> contentByLanguage = new()
     {
         [LanguageHelper.English] = new RsvpLanguageContent
@@ -118,8 +114,6 @@ else
             AttendanceQuestion = "Will you be attending?",
             AttendanceYes = "Yes, I'll be there",
             AttendanceNo = "Sorry, I can't make it",
-            EmailLabel = "Email address",
-            EmailPlaceholder = "you@example.com",
             AllergyLabel = "Food allergies",
             AllergyPlaceholder = "Let us know if you or your guests have any allergies",
             AllergyHelp = "Sharing details helps us coordinate with the catering team.",
@@ -130,8 +124,7 @@ else
             GuestCountRequiredError = "Please let us know how many guests will attend.",
             GuestCountRangeError = "Guest count must be between 0 and 12.",
             AttendanceRequiredError = "Please let us know if you can attend.",
-            EmailRequiredError = "Please share an email so we can follow up.",
-            EmailInvalidError = "That doesn't look like a valid email address."
+            ErrorMessage = "Sorry, something went wrong while saving your RSVP. Please try again."
         },
         [LanguageHelper.Spanish] = new RsvpLanguageContent
         {
@@ -145,8 +138,6 @@ else
             AttendanceQuestion = "\u00BFPodr\u00E1s asistir?",
             AttendanceYes = "S\u00ED, estar\u00E9 all\u00ED",
             AttendanceNo = "Lo siento, no podr\u00E9 asistir",
-            EmailLabel = "Correo electr\u00F3nico",
-            EmailPlaceholder = "t\u00FA@ejemplo.com",
             AllergyLabel = "Alergias alimentarias",
             AllergyPlaceholder = "Cu\u00E9ntanos si t\u00FA o tus invitados tienen alguna alergia",
             AllergyHelp = "Con esta informaci\u00F3n coordinamos mejor con el equipo de cocina.",
@@ -157,16 +148,17 @@ else
             GuestCountRequiredError = "Cu\u00E9ntanos cu\u00E1ntas personas asistir\u00E1n.",
             GuestCountRangeError = "El n\u00FAmero de invitados debe estar entre 0 y 12.",
             AttendanceRequiredError = "Indica si podr\u00E1s asistir.",
-            EmailRequiredError = "Comparte un correo para poder contactarte.",
-            EmailInvalidError = "Ese correo electr\u00F3nico no parece v\u00E1lido."
+            ErrorMessage = "No pudimos guardar tu confirmaci\u00F3n. Int\u00E9ntalo de nuevo en unos minutos."
         }
     };
 
     private RsvpFormModel formModel = new();
     private EditContext? editContext;
-    private ValidationMessageStore? messageStore;
-    private string? selectedLanguage;
-    private string? submissionStatus;
+   private ValidationMessageStore? messageStore;
+   private string? selectedLanguage;
+   private string? submissionStatus;
+    private bool isSubmitting;
+    private bool submissionError;
 
     private RsvpLanguageContent CurrentContent => contentByLanguage[selectedLanguage!];
     private bool ShowAttendanceDetails => formModel.IsAttending == true;
@@ -198,6 +190,7 @@ else
 
         selectedLanguage = language;
         submissionStatus = null;
+        submissionError = false;
         LanguageHelper.NavigateToCurrentWithLanguage(Navigation, language);
     }
 
@@ -205,17 +198,87 @@ else
     {
         selectedLanguage = null;
         submissionStatus = null;
+        submissionError = false;
         LanguageHelper.NavigateToCurrentWithLanguage(Navigation, null);
     }
 
     private async Task HandleValidSubmit()
     {
-        // TODO: Wire up API call to persist RSVP information.
-        await Task.CompletedTask;
-        submissionStatus = CurrentContent.SuccessMessage;
-        formModel = new RsvpFormModel();
-        ConfigureEditContext();
-        StateHasChanged();
+        if (selectedLanguage is null || isSubmitting)
+        {
+            return;
+        }
+
+        submissionStatus = null;
+        submissionError = false;
+
+        var endpoint = ResolveRsvpEndpoint();
+        if (endpoint is null)
+        {
+            submissionStatus = CurrentContent.ErrorMessage;
+            submissionError = true;
+            StateHasChanged();
+            return;
+        }
+
+        isSubmitting = true;
+
+        try
+        {
+            var payload = BuildRequestPayload();
+            using var response = await Http.PostAsJsonAsync(endpoint, payload);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var success = await response.Content.ReadFromJsonAsync<RsvpSuccessResponse>();
+                submissionStatus = success?.Message ?? CurrentContent.SuccessMessage;
+                submissionError = false;
+
+                formModel = new RsvpFormModel();
+                ConfigureEditContext();
+            }
+            else
+            {
+                var error = await response.Content.ReadFromJsonAsync<RsvpErrorResponse>();
+                submissionStatus = error?.Error ?? CurrentContent.ErrorMessage;
+                submissionError = true;
+            }
+        }
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine($"RSVP submission failed: {exception}");
+            submissionStatus = CurrentContent.ErrorMessage;
+            submissionError = true;
+        }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+
+    private string? ResolveRsvpEndpoint()
+    {
+        var endpoint = Configuration["RsvpApi:Endpoint"];
+        return string.IsNullOrWhiteSpace(endpoint) ? null : endpoint;
+    }
+
+    private RsvpRequestPayload BuildRequestPayload()
+    {
+        var language = selectedLanguage ?? LanguageHelper.English;
+        var trimmedName = formModel.Name?.Trim() ?? string.Empty;
+        var allergyNotes = string.IsNullOrWhiteSpace(formModel.AllergyNotes)
+            ? null
+            : formModel.AllergyNotes.Trim();
+
+        return new RsvpRequestPayload
+        {
+            Name = trimmedName,
+            IsAttending = formModel.IsAttending == true,
+            GuestCount = formModel.IsAttending == true ? formModel.GuestCount : null,
+            AllergyNotes = allergyNotes,
+            Language = language
+        };
     }
 
     private void ConfigureEditContext()
@@ -235,8 +298,12 @@ else
     private void HandleValidationRequested(object? sender, ValidationRequestedEventArgs args) =>
     ValidateForm();
 
-    private void HandleFieldChanged(object? sender, FieldChangedEventArgs args) =>
-    ValidateForm(args.FieldIdentifier);
+    private void HandleFieldChanged(object? sender, FieldChangedEventArgs args)
+    {
+        submissionStatus = null;
+        submissionError = false;
+        ValidateForm(args.FieldIdentifier);
+    }
 
     private void ValidateForm(FieldIdentifier? fieldToValidate = null)
     {
@@ -258,7 +325,6 @@ else
             ValidateName();
             ValidateGuestCount();
             ValidateAttendance();
-            ValidateEmail();
         }
         else
         {
@@ -275,10 +341,6 @@ else
                 case nameof(RsvpFormModel.IsAttending):
                     ValidateAttendance();
                     ValidateGuestCount();
-                    ValidateEmail();
-                    break;
-                case nameof(RsvpFormModel.Email):
-                    ValidateEmail();
                     break;
             }
         }
@@ -326,32 +388,23 @@ else
         }
     }
 
-    private void ValidateEmail()
+    private sealed class RsvpRequestPayload
     {
-        var field = new FieldIdentifier(formModel, nameof(RsvpFormModel.Email));
-        messageStore?.Clear(field);
+        public string Name { get; set; } = string.Empty;
+        public bool IsAttending { get; set; }
+        public int? GuestCount { get; set; }
+        public string? AllergyNotes { get; set; }
+        public string Language { get; set; } = LanguageHelper.English;
+    }
 
-        if (formModel.IsAttending != true)
-        {
-            if (!string.IsNullOrWhiteSpace(formModel.Email) &&
-            !EmailValidator.IsValid(formModel.Email))
-            {
-                messageStore?.Add(field, CurrentContent.EmailInvalidError);
-            }
+    private sealed class RsvpSuccessResponse
+    {
+        public string? Message { get; set; }
+    }
 
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(formModel.Email))
-        {
-            messageStore?.Add(field, CurrentContent.EmailRequiredError);
-            return;
-        }
-
-        if (!EmailValidator.IsValid(formModel.Email))
-        {
-            messageStore?.Add(field, CurrentContent.EmailInvalidError);
-        }
+    private sealed class RsvpErrorResponse
+    {
+        public string? Error { get; set; }
     }
 
     private sealed class RsvpLanguageContent
@@ -366,8 +419,6 @@ else
         public required string AttendanceQuestion { get; init; }
         public required string AttendanceYes { get; init; }
         public required string AttendanceNo { get; init; }
-        public required string EmailLabel { get; init; }
-        public required string EmailPlaceholder { get; init; }
         public required string AllergyLabel { get; init; }
         public required string AllergyPlaceholder { get; init; }
         public required string AllergyHelp { get; init; }
@@ -378,8 +429,7 @@ else
         public required string GuestCountRequiredError { get; init; }
         public required string GuestCountRangeError { get; init; }
         public required string AttendanceRequiredError { get; init; }
-        public required string EmailRequiredError { get; init; }
-        public required string EmailInvalidError { get; init; }
+        public required string ErrorMessage { get; init; }
     }
 
     private sealed class RsvpFormModel
@@ -387,7 +437,6 @@ else
         public string? Name { get; set; }
         public int? GuestCount { get; set; }
         public bool? IsAttending { get; set; }
-        public string? Email { get; set; }
         public string? AllergyNotes { get; set; }
     }
 }
