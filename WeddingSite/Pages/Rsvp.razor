@@ -32,69 +32,94 @@ else
     <PageTitle>@CurrentContent.PageTitle</PageTitle>
 
     <section class="rsvp">
-        <div class="rsvp__card">
-            <button type="button" class="rsvp__language-toggle" @onclick="ResetLanguage">
-                @CurrentContent.ChangeLanguageLabel
-            </button>
+        <div class="rsvp__layout">
+            <div class="rsvp__intro">
+                <h1 class="rsvp__heading">@CurrentContent.Heading</h1>
+                <p class="rsvp__subheading">@CurrentContent.Subheading</p>
 
-            <h1 class="rsvp__heading">@CurrentContent.Heading</h1>
-            <p class="rsvp__subheading">@CurrentContent.Subheading</p>
-
-            <EditForm class="rsvp__form" EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
-                @* <ValidationSummary /> *@
-
-                <div class="rsvp__field">
-                    <label class="rsvp__label" for="name">@CurrentContent.NameLabel</label>
-                    <InputText id="name" class="form-control" placeholder="@CurrentContent.NamePlaceholder"
-                        @bind-Value="formModel.Name" />
-                    <ValidationMessage For="() => formModel.Name" />
+                <h2 class="rsvp__section-title">@CurrentContent.DetailsTitle</h2>
+                <div class="rsvp__details">
+                    <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.LocationLabel</p>
+                        <p class="detail-card__value">@CurrentContent.LocationValue</p>
+                    </div>
+                    <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.DressCodeLabel</p>
+                        <p class="detail-card__value">@CurrentContent.DressCodeValue</p>
+                    </div>
+                    <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.CelebrationLabel</p>
+                        <p class="detail-card__value">@CurrentContent.CelebrationValue</p>
+                    </div>
                 </div>
 
-                <div class="rsvp__field">
-                    <span class="rsvp__label">@CurrentContent.AttendanceQuestion</span>
-                    <InputRadioGroup TValue="bool?" class="rsvp__radio-group" @bind-Value="formModel.IsAttending">
-                        <label class="rsvp__radio">
-                            <InputRadio TValue="bool?" Value="@(true)" />
-                            <span>@CurrentContent.AttendanceYes</span>
-                        </label>
-                        <label class="rsvp__radio">
-                            <InputRadio TValue="bool?" Value="@(false)" />
-                            <span>@CurrentContent.AttendanceNo</span>
-                        </label>
-                    </InputRadioGroup>
-                    <ValidationMessage For="() => formModel.IsAttending" />
+                <div class="rsvp__gallery">
+                    <img src="/images/GVForest.jpg" alt="@CurrentContent.PhotoAltPrimary" loading="lazy" />
+                    <img src="/images/GVMountain.jpg" alt="@CurrentContent.PhotoAltSecondary" loading="lazy" />
                 </div>
+            </div>
 
-                @if (ShowAttendanceDetails)
-                {
-                    <div class="rsvp__field">
-                        <label class="rsvp__label" for="guestCount">@CurrentContent.GuestCountLabel</label>
-                        <InputNumber id="guestCount" class="form-control" @bind-Value="formModel.GuestCount" min="0" max="12" />
-                        <small class="rsvp__help">@CurrentContent.GuestCountHelp</small>
-                        <ValidationMessage For="() => formModel.GuestCount" />
-                    </div>
-
-                    <div class="rsvp__field">
-                        <label class="rsvp__label" for="allergies">@CurrentContent.AllergyLabel</label>
-                        <InputTextArea id="allergies" class="form-control rsvp__textarea"
-                            placeholder="@CurrentContent.AllergyPlaceholder" @bind-Value="formModel.AllergyNotes" rows="3" />
-                        <small class="rsvp__help">@CurrentContent.AllergyHelp</small>
-                        <ValidationMessage For="() => formModel.AllergyNotes" />
-                    </div>
-                }
-
-                <button type="submit" class="btn btn-primary btn-lg rsvp__submit" disabled="@isSubmitting"
-                    aria-busy="@isSubmitting">
-                    @CurrentContent.SubmitLabel
+            <div class="rsvp__card">
+                <button type="button" class="rsvp__language-toggle" @onclick="ResetLanguage">
+                    @CurrentContent.ChangeLanguageLabel
                 </button>
-            </EditForm>
 
-            @if (!string.IsNullOrEmpty(submissionStatus))
-            {
-                <p class="@(submissionError ? "rsvp__feedback rsvp__feedback--error" : "rsvp__feedback")">
-                    @submissionStatus
-                </p>
-            }
+                <EditForm class="rsvp__form" EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
+                    @* <ValidationSummary /> *@
+
+                    <div class="rsvp__field">
+                        <label class="rsvp__label" for="name">@CurrentContent.NameLabel</label>
+                        <InputText id="name" class="form-control" placeholder="@CurrentContent.NamePlaceholder"
+                            @bind-Value="formModel.Name" />
+                        <ValidationMessage For="() => formModel.Name" />
+                    </div>
+
+                    <div class="rsvp__field">
+                        <span class="rsvp__label">@CurrentContent.AttendanceQuestion</span>
+                        <InputRadioGroup TValue="bool?" class="rsvp__radio-group" @bind-Value="formModel.IsAttending">
+                            <label class="rsvp__radio">
+                                <InputRadio TValue="bool?" Value="@(true)" />
+                                <span>@CurrentContent.AttendanceYes</span>
+                            </label>
+                            <label class="rsvp__radio">
+                                <InputRadio TValue="bool?" Value="@(false)" />
+                                <span>@CurrentContent.AttendanceNo</span>
+                            </label>
+                        </InputRadioGroup>
+                        <ValidationMessage For="() => formModel.IsAttending" />
+                    </div>
+
+                    @if (ShowAttendanceDetails)
+                    {
+                        <div class="rsvp__field">
+                            <label class="rsvp__label" for="guestCount">@CurrentContent.GuestCountLabel</label>
+                            <InputNumber id="guestCount" class="form-control" @bind-Value="formModel.GuestCount" min="0" max="12" />
+                            <small class="rsvp__help">@CurrentContent.GuestCountHelp</small>
+                            <ValidationMessage For="() => formModel.GuestCount" />
+                        </div>
+
+                        <div class="rsvp__field">
+                            <label class="rsvp__label" for="allergies">@CurrentContent.AllergyLabel</label>
+                            <InputTextArea id="allergies" class="form-control rsvp__textarea"
+                                placeholder="@CurrentContent.AllergyPlaceholder" @bind-Value="formModel.AllergyNotes" rows="3" />
+                            <small class="rsvp__help">@CurrentContent.AllergyHelp</small>
+                            <ValidationMessage For="() => formModel.AllergyNotes" />
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-primary btn-lg rsvp__submit" disabled="@isSubmitting"
+                        aria-busy="@isSubmitting">
+                        @CurrentContent.SubmitLabel
+                    </button>
+                </EditForm>
+
+                @if (!string.IsNullOrEmpty(submissionStatus))
+                {
+                    <p class="@(submissionError ? "rsvp__feedback rsvp__feedback--error" : "rsvp__feedback")">
+                        @submissionStatus
+                    </p>
+                }
+            </div>
         </div>
     </section>
 }
@@ -107,6 +132,15 @@ else
             PageTitle = "RSVP",
             Heading = "Let us know if you can join us",
             Subheading = "Please fill out the form so we can reserve your seats.",
+            DetailsTitle = "Wedding details",
+            LocationLabel = "Location",
+            LocationValue = "Hacienda La Monta\u00F1a, Km 1.7 v\u00EDa Manas Molino, vereda Chuntame, Cajic\u00E1, Cundinamarca, Colombia",
+            DressCodeLabel = "Dress code",
+            DressCodeValue = "Formal attire",
+            CelebrationLabel = "Celebration",
+            CelebrationValue = "Reception and party at the same venue.",
+            PhotoAltPrimary = "The couple standing together in a forest.",
+            PhotoAltSecondary = "The couple smiling on a mountain.",
             NameLabel = "Name",
             NamePlaceholder = "Your full name",
             GuestCountLabel = "Number of guests (including you)",
@@ -131,6 +165,15 @@ else
             PageTitle = "Confirmar asistencia",
             Heading = "Cu\u00E9ntanos si podr\u00E1s acompa\u00F1arnos",
             Subheading = "Completa el formulario para reservar tus lugares.",
+            DetailsTitle = "Detalles de la boda",
+            LocationLabel = "Ubicaci\u00F3n",
+            LocationValue = "Hacienda La Monta\u00F1a, Km 1.7 v\u00EDa Manas Molino, vereda Chuntame, Cajic\u00E1, Cundinamarca, Colombia",
+            DressCodeLabel = "C\u00F3digo de vestimenta",
+            DressCodeValue = "Traje de gala",
+            CelebrationLabel = "Celebraci\u00F3n",
+            CelebrationValue = "Recepci\u00F3n y fiesta en el mismo lugar.",
+            PhotoAltPrimary = "La pareja junta en un bosque.",
+            PhotoAltSecondary = "La pareja sonriendo en la monta\u00F1a.",
             NameLabel = "Nombre",
             NamePlaceholder = "Tu nombre completo",
             GuestCountLabel = "N\u00FAmero de invitados (incluy\u00E9ndote)",
@@ -236,6 +279,8 @@ else
 
                 formModel = new RsvpFormModel();
                 ConfigureEditContext();
+
+                NavigateToHome();
             }
             else
             {
@@ -293,6 +338,12 @@ else
         messageStore = new ValidationMessageStore(editContext);
         editContext.OnValidationRequested += HandleValidationRequested;
         editContext.OnFieldChanged += HandleFieldChanged;
+    }
+
+    private void NavigateToHome()
+    {
+        var destination = LanguageHelper.AppendLanguageQuery("/", selectedLanguage);
+        Navigation.NavigateTo(destination);
     }
 
     private void HandleValidationRequested(object? sender, ValidationRequestedEventArgs args) =>
@@ -412,6 +463,15 @@ else
         public required string PageTitle { get; init; }
         public required string Heading { get; init; }
         public required string Subheading { get; init; }
+        public required string DetailsTitle { get; init; }
+        public required string LocationLabel { get; init; }
+        public required string LocationValue { get; init; }
+        public required string DressCodeLabel { get; init; }
+        public required string DressCodeValue { get; init; }
+        public required string CelebrationLabel { get; init; }
+        public required string CelebrationValue { get; init; }
+        public required string PhotoAltPrimary { get; init; }
+        public required string PhotoAltSecondary { get; init; }
         public required string NameLabel { get; init; }
         public required string NamePlaceholder { get; init; }
         public required string GuestCountLabel { get; init; }

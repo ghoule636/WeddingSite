@@ -7,6 +7,10 @@
 
     <section class="language-selector">
         <div class="language-selector__content">
+            <h1 class="language-selector__heading">Choose your language</h1>
+            <p class="language-selector__description">
+                Select the language you would like to use for the wedding site.
+            </p>
             <div class="language-selector__buttons">
                 <button type="button" class="language-selector__button"
                     @onclick="() => SetLanguage(LanguageHelper.English)">
@@ -25,18 +29,43 @@ else
     <PageTitle>@CurrentContent.PageTitle</PageTitle>
 
     <section class="hero">
-        <div class="hero__content">
-            <button type="button" class="hero__language-toggle" @onclick="ResetLanguage">
-                @CurrentContent.ChangeLanguageLabel
-            </button>
+        <div class="hero__grid">
+            <div class="hero__content">
+                <button type="button" class="hero__language-toggle" @onclick="ResetLanguage">
+                    @CurrentContent.ChangeLanguageLabel
+                </button>
 
-            <p class="hero__eyebrow">@CurrentContent.Eyebrow</p>
-            <h1 class="hero__date">@CurrentContent.DateLine</h1>
-            <p class="hero__message">@CurrentContent.Message</p>
+                <p class="hero__eyebrow">@CurrentContent.Eyebrow</p>
+                <h1 class="hero__date">@CurrentContent.DateLine</h1>
+                <p class="hero__message">@CurrentContent.Message</p>
 
-            <a class="btn btn-primary btn-lg hero__cta" href="@BuildRsvpLink()">
-                @CurrentContent.CtaText
-            </a>
+                <div class="hero__details">
+                    <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.LocationLabel</p>
+                        <p class="detail-card__value">@CurrentContent.LocationValue</p>
+                    </div>
+                    <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.DressCodeLabel</p>
+                        <p class="detail-card__value">@CurrentContent.DressCodeValue</p>
+                    </div>
+                    <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.CelebrationLabel</p>
+                        <p class="detail-card__value">@CurrentContent.CelebrationValue</p>
+                    </div>
+                </div>
+
+                <a class="btn btn-primary btn-lg hero__cta" href="@BuildRsvpLink()">
+                    @CurrentContent.CtaText
+                </a>
+            </div>
+            <div class="hero__media">
+                <div class="hero__photo hero__photo--primary">
+                    <img src="/images/GVForest.jpg" alt="@CurrentContent.PhotoAltPrimary" loading="lazy" />
+                </div>
+                <div class="hero__photo hero__photo--secondary">
+                    <img src="/images/GVMountain.jpg" alt="@CurrentContent.PhotoAltSecondary" loading="lazy" />
+                </div>
+            </div>
         </div>
     </section>
 }
@@ -48,8 +77,16 @@ else
         {
             PageTitle = "You're Invited!",
             Eyebrow = "You're invited to our wedding!",
-            DateLine = "April 18 \u00B7 Colombia",
+            DateLine = "April 18 \u00B7 Hacienda La Monta\u00F1a, Cajic\u00E1",
             Message = "We can't wait to celebrate with you.",
+            LocationLabel = "Location",
+            LocationValue = "Hacienda La Monta\u00F1a, Cajic\u00E1, Cundinamarca, Colombia",
+            DressCodeLabel = "Dress code",
+            DressCodeValue = "Formal attire",
+            CelebrationLabel = "Celebration",
+            CelebrationValue = "Reception and party at the same venue.",
+            PhotoAltPrimary = "The couple standing together in a forest.",
+            PhotoAltSecondary = "The couple smiling on a mountain.",
             CtaText = "RSVP",
             ChangeLanguageLabel = "Need another language?"
         },
@@ -57,8 +94,16 @@ else
         {
             PageTitle = "\u00A1Est\u00E1s invitado!",
             Eyebrow = "\u00A1Est\u00E1s invitado a nuestra boda!",
-            DateLine = "18 de abril \u00B7 Colombia",
+            DateLine = "18 de abril \u00B7 Hacienda La Monta\u00F1a, Cajic\u00E1",
             Message = "No vemos la hora de celebrar contigo.",
+            LocationLabel = "Ubicaci\u00F3n",
+            LocationValue = "Hacienda La Monta\u00F1a, Cajic\u00E1, Cundinamarca, Colombia",
+            DressCodeLabel = "C\u00F3digo de vestimenta",
+            DressCodeValue = "Traje de gala",
+            CelebrationLabel = "Celebraci\u00F3n",
+            CelebrationValue = "Recepci\u00F3n y fiesta en el mismo lugar.",
+            PhotoAltPrimary = "La pareja junta en un bosque.",
+            PhotoAltSecondary = "La pareja sonriendo en la monta\u00F1a.",
             CtaText = "Confirmar asistencia",
             ChangeLanguageLabel = "\u00BFNecesitas otro idioma?"
         }
@@ -107,6 +152,14 @@ else
         public required string Eyebrow { get; init; }
         public required string DateLine { get; init; }
         public required string Message { get; init; }
+        public required string LocationLabel { get; init; }
+        public required string LocationValue { get; init; }
+        public required string DressCodeLabel { get; init; }
+        public required string DressCodeValue { get; init; }
+        public required string CelebrationLabel { get; init; }
+        public required string CelebrationValue { get; init; }
+        public required string PhotoAltPrimary { get; init; }
+        public required string PhotoAltSecondary { get; init; }
         public required string CtaText { get; init; }
         public required string ChangeLanguageLabel { get; init; }
     }

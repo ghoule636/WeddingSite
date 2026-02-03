@@ -1,1 +1,5 @@
+C:\Users\Gabe\Development\WeddingSite\output\output\web.config
+C:\Users\Gabe\Development\WeddingSite\output\output\WeddingSite.staticwebassets.endpoints.json
+C:\Users\Gabe\Development\WeddingSite\output\output\wwwroot\appsettings.json
+C:\Users\Gabe\Development\WeddingSite\output\output\wwwroot\_framework\blazor.boot.json
 C:\Users\Gabe\Development\WeddingSite\output\web.config
