@@ -2,11 +2,15 @@ from flask import Flask, request, jsonify, Response, g
 import sqlite3, os, time, csv, io, logging
 from logging.handlers import RotatingFileHandler
 
-# === CONFIG ===
-ALLOWED_ORIGIN = "https://rsvp.gvwedding.org"  # your Pages domain
-DB_PATH = os.path.join(os.path.dirname(__file__), "rsvps.sqlite")
-LOG_PATH = os.environ.get("RSVP_LOG_PATH", os.path.join(os.path.dirname(__file__), "rsvp.log"))
-ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "change-me")  # set via environment
+  # === CONFIG ===
+  ALLOWED_ORIGINS = {
+      o.strip()
+      for o in os.environ.get(
+          "ALLOWED_ORIGINS",
+          "https://gvwedding.org,https://rsvp.gvwedding.org"
+      ).split(",")
+      if o.strip()
+  }
 
 app = Flask(__name__)
 
@@ -59,14 +63,16 @@ def init_db():
         db.execute("ALTER TABLE rsvps ADD COLUMN language TEXT")
     db.commit()
 
-# --- CORS ---
-@app.after_request
-def add_cors(resp):
-    resp.headers["Access-Control-Allow-Origin"] = ALLOWED_ORIGIN
-    resp.headers["Vary"] = "Origin"
-    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
-    resp.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    return resp
+  # --- CORS ---
+  @app.after_request
+  def add_cors(resp):
+      origin = request.headers.get("Origin", "")
+      if origin in ALLOWED_ORIGINS:
+          resp.headers["Access-Control-Allow-Origin"] = origin
+      resp.headers["Vary"] = "Origin"
+      resp.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
+      resp.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+      return resp
 
 @app.route("/rsvp", methods=["POST", "OPTIONS"])
 def rsvp():
