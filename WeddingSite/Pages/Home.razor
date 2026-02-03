@@ -24,9 +24,9 @@
         </div>
     </section>
 }
-else
-{
-    <PageTitle>@CurrentContent.PageTitle</PageTitle>
+    else
+    {
+        <PageTitle>@CurrentContent.PageTitle</PageTitle>
 
     <section class="hero">
         <div class="hero__grid">
@@ -38,6 +38,14 @@ else
                 <p class="hero__eyebrow">@CurrentContent.Eyebrow</p>
                 <h1 class="hero__date">@CurrentContent.DateLine</h1>
                 <p class="hero__message">@CurrentContent.Message</p>
+
+                @if (showRsvpConfirmation)
+                {
+                    <div class="hero__confirmation" role="status" aria-live="polite">
+                        <p class="hero__confirmation-title">@CurrentContent.RsvpConfirmationTitle</p>
+                        <p class="hero__confirmation-message">@CurrentContent.RsvpConfirmationMessage</p>
+                    </div>
+                }
 
                 <div class="hero__details">
                     <div class="detail-card">
@@ -87,6 +95,8 @@ else
             CelebrationValue = "Reception and party at the same venue.",
             PhotoAltPrimary = "The couple standing together in a forest.",
             PhotoAltSecondary = "The couple smiling on a mountain.",
+            RsvpConfirmationTitle = "Thanks! We received your RSVP.",
+            RsvpConfirmationMessage = "Review the details below and update us if anything changes.",
             CtaText = "RSVP",
             ChangeLanguageLabel = "Need another language?"
         },
@@ -104,26 +114,34 @@ else
             CelebrationValue = "Recepci\u00F3n y fiesta en el mismo lugar.",
             PhotoAltPrimary = "La pareja junta en un bosque.",
             PhotoAltSecondary = "La pareja sonriendo en la monta\u00F1a.",
+            RsvpConfirmationTitle = "\u00A1Gracias! Recibimos tu confirmaci\u00F3n.",
+            RsvpConfirmationMessage = "Revisa los detalles a continuaci\u00F3n y av\u00EDsanos si algo cambia.",
             CtaText = "Confirmar asistencia",
             ChangeLanguageLabel = "\u00BFNecesitas otro idioma?"
         }
     };
 
     private string? selectedLanguage;
+    private bool showRsvpConfirmation;
 
     private LanguageContent CurrentContent => contentByLanguage[selectedLanguage!];
 
     protected override void OnParametersSet()
     {
         selectedLanguage = null;
+        showRsvpConfirmation = false;
 
         var languageFromUri = LanguageHelper.GetLanguageFromUri(Navigation);
+        var rsvpStatus = LanguageHelper.GetQueryValue(Navigation, "rsvp");
 
         if (languageFromUri is not null &&
         contentByLanguage.ContainsKey(languageFromUri))
         {
             selectedLanguage = languageFromUri;
         }
+
+        showRsvpConfirmation = string.Equals(rsvpStatus, "success", StringComparison.OrdinalIgnoreCase)
+            && selectedLanguage is not null;
     }
 
     private void SetLanguage(string language)
@@ -160,6 +178,8 @@ else
         public required string CelebrationValue { get; init; }
         public required string PhotoAltPrimary { get; init; }
         public required string PhotoAltSecondary { get; init; }
+        public required string RsvpConfirmationTitle { get; init; }
+        public required string RsvpConfirmationMessage { get; init; }
         public required string CtaText { get; init; }
         public required string ChangeLanguageLabel { get; init; }
     }

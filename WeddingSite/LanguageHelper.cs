@@ -39,6 +39,32 @@ public static class LanguageHelper
         return null;
     }
 
+    public static string? GetQueryValue(NavigationManager navigation, string key)
+    {
+        var absoluteUri = navigation.ToAbsoluteUri(navigation.Uri);
+        var rawQuery = absoluteUri.Query;
+
+        if (string.IsNullOrEmpty(rawQuery))
+        {
+            return null;
+        }
+
+        var parameters = rawQuery.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var parameter in parameters)
+        {
+            var parts = parameter.Split('=', 2, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length == 2 &&
+                parts[0].Equals(key, StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(parts[1]);
+            }
+        }
+
+        return null;
+    }
+
     public static bool IsSupportedLanguage(string? language) =>
         language is English or Spanish;
 

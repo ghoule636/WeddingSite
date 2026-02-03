@@ -125,6 +125,26 @@
     width: 100%;
 }
 
+.hero__confirmation {
+    width: 100%;
+    background: rgba(186, 124, 88, 0.12);
+    border: 1px solid rgba(186, 124, 88, 0.35);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 12px 30px rgba(46, 35, 26, 0.08);
+}
+
+.hero__confirmation-title {
+    margin: 0 0 0.35rem 0;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.hero__confirmation-message {
+    margin: 0;
+    color: rgba(55, 45, 37, 0.8);
+}
+
 .detail-card {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 18px;

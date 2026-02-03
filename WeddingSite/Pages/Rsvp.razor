@@ -342,7 +342,9 @@ else
 
     private void NavigateToHome()
     {
-        var destination = LanguageHelper.AppendLanguageQuery("/", selectedLanguage);
+        var baseDestination = LanguageHelper.AppendLanguageQuery("/", selectedLanguage);
+        var separator = baseDestination.Contains('?') ? "&" : "?";
+        var destination = $"{baseDestination}{separator}rsvp=success";
         Navigation.NavigateTo(destination);
     }
 
