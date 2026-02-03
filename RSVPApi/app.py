@@ -11,6 +11,9 @@ ALLOWED_ORIGINS = {
     ).split(",")
     if o.strip()
 }
+DB_PATH = os.path.join(os.path.dirname(__file__), "rsvps.sqlite")
+LOG_PATH = os.environ.get("RSVP_LOG_PATH", os.path.join(os.path.dirname(__file__), "rsvp.log"))
+ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "change-me")
 
 app = Flask(__name__)
 
