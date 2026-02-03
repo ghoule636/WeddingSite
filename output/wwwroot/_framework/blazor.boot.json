@@ -1,11 +1,7 @@
 {
   "mainAssemblyName": "WeddingSite",
   "resources": {
-<<<<<<< HEAD
     "hash": "sha256-iSfxxjCBS3OWtreX18OAYYT62yM2QXjblBk84i1FIcY=",
-=======
-    "hash": "sha256-e4F71W55wjpJu+WHTXp6IK4sjO6GtStUDikfesgzXSY=",
->>>>>>> fb803c9d5046b4851e00c8a70a138e4ad56eb4d7
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.na6is2gfok.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Forms.kjp1m6bcjb.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
@@ -49,11 +45,7 @@
       "System.Text.RegularExpressions.k8ibga7wut.wasm": "System.Text.RegularExpressions.wasm",
       "System.t4d4s3f398.wasm": "System.wasm",
       "System.Private.CoreLib.5cxjyhjliq.wasm": "System.Private.CoreLib.wasm",
-<<<<<<< HEAD
       "WeddingSite.k8mcgyfx9f.wasm": "WeddingSite.wasm",
-=======
-      "WeddingSite.2vh4eyss78.wasm": "WeddingSite.wasm",
->>>>>>> fb803c9d5046b4851e00c8a70a138e4ad56eb4d7
       "dotnet.js": "dotnet.js",
       "dotnet.native.noby4tlk4d.js": "dotnet.native.js",
       "dotnet.native.qe75a9vfqn.wasm": "dotnet.native.wasm",
@@ -121,11 +113,7 @@
       "System.Text.Json.4dm4w39cy1.wasm": "sha256-yBnwBK+ScWTLrx9Bbe5ZFhvA5iFG8dpn4FhF6jHeGPo=",
       "System.Text.RegularExpressions.k8ibga7wut.wasm": "sha256-7OYvLuFLvwbax++2u+uoDmoaX8o/Q8wcYJC92eP1YjA=",
       "System.t4d4s3f398.wasm": "sha256-fVP2BxRRKpBA0PmBbKxmO45bXDrAXVn1GthlDclLbeU=",
-<<<<<<< HEAD
       "WeddingSite.k8mcgyfx9f.wasm": "sha256-bPzl9C9M+CXVohuJyKHnw15xG4JMUhTDDxQm2YBWqXw="
-=======
-      "WeddingSite.2vh4eyss78.wasm": "sha256-bokPtRTWhu451ufgyWgYp/TSgEs+YFatF7xVbi7LbtA="
->>>>>>> fb803c9d5046b4851e00c8a70a138e4ad56eb4d7
     }
   },
   "cacheBootResources": true,
