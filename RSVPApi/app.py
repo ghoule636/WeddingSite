@@ -2,15 +2,15 @@ from flask import Flask, request, jsonify, Response, g
 import sqlite3, os, time, csv, io, logging
 from logging.handlers import RotatingFileHandler
 
-  # === CONFIG ===
-  ALLOWED_ORIGINS = {
-      o.strip()
-      for o in os.environ.get(
-          "ALLOWED_ORIGINS",
-          "https://gvwedding.org,https://rsvp.gvwedding.org"
-      ).split(",")
-      if o.strip()
-  }
+# === CONFIG ===
+ALLOWED_ORIGINS = {
+    o.strip()
+    for o in os.environ.get(
+        "ALLOWED_ORIGINS",
+        "https://gvwedding.org,https://rsvp.gvwedding.org"
+    ).split(",")
+    if o.strip()
+}
 
 app = Flask(__name__)
 
