@@ -189,6 +189,15 @@ select.form-select:focus {
     color: #c9ffe3;
 }
 
+.rsvp__feedback--error {
+    color: #ffd7d7;
+}
+
+.rsvp__submit[disabled] {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
 @media (max-width: 640px) {
     .language-selector,
     .rsvp {
