@@ -63,16 +63,16 @@ def init_db():
         db.execute("ALTER TABLE rsvps ADD COLUMN language TEXT")
     db.commit()
 
-  # --- CORS ---
-  @app.after_request
-  def add_cors(resp):
-      origin = request.headers.get("Origin", "")
-      if origin in ALLOWED_ORIGINS:
-          resp.headers["Access-Control-Allow-Origin"] = origin
-      resp.headers["Vary"] = "Origin"
-      resp.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
-      resp.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-      return resp
+# --- CORS ---
+@app.after_request
+def add_cors(resp):
+    origin = request.headers.get("Origin", "")
+    if origin in ALLOWED_ORIGINS:
+        resp.headers["Access-Control-Allow-Origin"] = origin
+    resp.headers["Vary"] = "Origin"
+    resp.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
+    resp.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    return resp
 
 @app.route("/rsvp", methods=["POST", "OPTIONS"])
 def rsvp():
