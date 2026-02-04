@@ -182,7 +182,8 @@
 .hero__media {
     display: grid;
     gap: 1.25rem;
-    align-items: end;
+    align-items: center;
+    justify-items: center;
 }
 
 .hero__photo {
@@ -202,12 +203,7 @@
 
 .hero__photo--primary {
     aspect-ratio: 3 / 4;
-}
-
-.hero__photo--secondary {
-    aspect-ratio: 4 / 3;
-    margin-left: auto;
-    width: 88%;
+    width: min(100%, 360px);
 }
 
 @media (max-width: 900px) {
@@ -216,12 +212,7 @@
     }
 
     .hero__media {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .hero__photo--secondary {
-        width: 100%;
-        margin-left: 0;
+        justify-items: start;
     }
 }
 

@@ -134,7 +134,7 @@
 
 .rsvp__gallery {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     width: 100%;
 }
@@ -150,11 +150,6 @@
 
 .rsvp__gallery img:first-child {
     aspect-ratio: 3 / 4;
-}
-
-.rsvp__gallery img:last-child {
-    aspect-ratio: 4 / 3;
-    align-self: end;
 }
 
 .rsvp__card {
@@ -317,7 +312,4 @@ select.form-select:focus {
         text-align: center;
     }
 
-    .rsvp__gallery {
-        grid-template-columns: minmax(0, 1fr);
-    }
 }
