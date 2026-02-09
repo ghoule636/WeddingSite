@@ -44,6 +44,10 @@ else
                         <p class="detail-card__value">@CurrentContent.LocationValue</p>
                     </div>
                     <div class="detail-card">
+                        <p class="detail-card__label">@CurrentContent.TimeLabel</p>
+                        <p class="detail-card__value">@CurrentContent.TimeValue</p>
+                    </div>
+                    <div class="detail-card">
                         <p class="detail-card__label">@CurrentContent.DressCodeLabel</p>
                         <p class="detail-card__value">@CurrentContent.DressCodeValue</p>
                     </div>
@@ -71,6 +75,14 @@ else
                         <InputText id="name" class="form-control" placeholder="@CurrentContent.NamePlaceholder"
                             @bind-Value="formModel.Name" />
                         <ValidationMessage For="() => formModel.Name" />
+                    </div>
+
+                    <div class="rsvp__field">
+                        <label class="rsvp__label" for="phone">@CurrentContent.PhoneLabel</label>
+                        <InputText id="phone" class="form-control" placeholder="@CurrentContent.PhonePlaceholder"
+                            @bind-Value="formModel.Phone" />
+                        <small class="rsvp__help">@CurrentContent.PhoneHelp</small>
+                        <ValidationMessage For="() => formModel.Phone" />
                     </div>
 
                     <div class="rsvp__field">
@@ -134,6 +146,8 @@ else
             DetailsTitle = "Wedding details",
             LocationLabel = "Location",
             LocationValue = "Hacienda La Monta\u00F1a, Km 1.7 v\u00EDa Manas Molino, vereda Chuntame, Cajic\u00E1, Cundinamarca, Colombia",
+            TimeLabel = "Time",
+            TimeValue = "3:00 PM",
             DressCodeLabel = "Dress code",
             DressCodeValue = "Formal attire",
             CelebrationLabel = "Celebration",
@@ -141,6 +155,9 @@ else
             PhotoAltPrimary = "The couple standing together in a forest.",
             NameLabel = "Name",
             NamePlaceholder = "Your full name",
+            PhoneLabel = "Phone number",
+            PhonePlaceholder = "Your best contact number",
+            PhoneHelp = "We\u2019ll only use this if we need to reach you about your RSVP.",
             GuestCountLabel = "Number of guests (including you)",
             GuestCountHelp = "You can update this later if plans change.",
             AttendanceQuestion = "Will you be attending?",
@@ -153,6 +170,7 @@ else
             ChangeLanguageLabel = "Need another language?",
             SuccessMessage = "Thanks! Your RSVP has been recorded.",
             NameRequiredError = "Please enter a name.",
+            PhoneRequiredError = "Please enter a phone number.",
             GuestCountRequiredError = "Please let us know how many guests will attend.",
             GuestCountRangeError = "Guest count must be between 0 and 12.",
             AttendanceRequiredError = "Please let us know if you can attend.",
@@ -166,6 +184,8 @@ else
             DetailsTitle = "Detalles de la boda",
             LocationLabel = "Ubicaci\u00F3n",
             LocationValue = "Hacienda La Monta\u00F1a, Km 1.7 v\u00EDa Manas Molino, vereda Chuntame, Cajic\u00E1, Cundinamarca, Colombia",
+            TimeLabel = "Hora",
+            TimeValue = "3:00 p. m.",
             DressCodeLabel = "C\u00F3digo de vestimenta",
             DressCodeValue = "Traje de gala",
             CelebrationLabel = "Celebraci\u00F3n",
@@ -173,6 +193,9 @@ else
             PhotoAltPrimary = "La pareja junta en un bosque.",
             NameLabel = "Nombre",
             NamePlaceholder = "Tu nombre completo",
+            PhoneLabel = "N\u00FAmero de tel\u00E9fono",
+            PhonePlaceholder = "Tu mejor n\u00FAmero de contacto",
+            PhoneHelp = "Solo lo usaremos si necesitamos comunicarnos contigo sobre tu confirmaci\u00F3n.",
             GuestCountLabel = "N\u00FAmero de invitados (incluy\u00E9ndote)",
             GuestCountHelp = "Si cambia algo, podr\u00E1s actualizarlo m\u00E1s adelante.",
             AttendanceQuestion = "\u00BFPodr\u00E1s asistir?",
@@ -185,6 +208,7 @@ else
             ChangeLanguageLabel = "\u00BFNecesitas otro idioma?",
             SuccessMessage = "\u00A1Gracias! Hemos recibido tu confirmaci\u00F3n.",
             NameRequiredError = "Por favor ingresa un nombre.",
+            PhoneRequiredError = "Por favor ingresa un n\u00FAmero de tel\u00E9fono.",
             GuestCountRequiredError = "Cu\u00E9ntanos cu\u00E1ntas personas asistir\u00E1n.",
             GuestCountRangeError = "El n\u00FAmero de invitados debe estar entre 0 y 12.",
             AttendanceRequiredError = "Indica si podr\u00E1s asistir.",
@@ -309,6 +333,7 @@ else
     {
         var language = selectedLanguage ?? LanguageHelper.English;
         var trimmedName = formModel.Name?.Trim() ?? string.Empty;
+        var trimmedPhone = formModel.Phone?.Trim() ?? string.Empty;
         var allergyNotes = string.IsNullOrWhiteSpace(formModel.AllergyNotes)
             ? null
             : formModel.AllergyNotes.Trim();
@@ -316,6 +341,7 @@ else
         return new RsvpRequestPayload
         {
             Name = trimmedName,
+            Phone = trimmedPhone,
             IsAttending = formModel.IsAttending == true,
             GuestCount = formModel.IsAttending == true ? formModel.GuestCount : null,
             AllergyNotes = allergyNotes,
@@ -373,6 +399,7 @@ else
         {
             messageStore.Clear();
             ValidateName();
+            ValidatePhone();
             ValidateGuestCount();
             ValidateAttendance();
         }
@@ -384,6 +411,9 @@ else
             {
                 case nameof(RsvpFormModel.Name):
                     ValidateName();
+                    break;
+                case nameof(RsvpFormModel.Phone):
+                    ValidatePhone();
                     break;
                 case nameof(RsvpFormModel.GuestCount):
                     ValidateGuestCount();
@@ -403,6 +433,14 @@ else
         if (string.IsNullOrWhiteSpace(formModel.Name))
         {
             messageStore?.Add(new FieldIdentifier(formModel, nameof(RsvpFormModel.Name)), CurrentContent.NameRequiredError);
+        }
+    }
+
+    private void ValidatePhone()
+    {
+        if (string.IsNullOrWhiteSpace(formModel.Phone))
+        {
+            messageStore?.Add(new FieldIdentifier(formModel, nameof(RsvpFormModel.Phone)), CurrentContent.PhoneRequiredError);
         }
     }
 
@@ -441,6 +479,7 @@ else
     private sealed class RsvpRequestPayload
     {
         public string Name { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
         public bool IsAttending { get; set; }
         public int? GuestCount { get; set; }
         public string? AllergyNotes { get; set; }
@@ -465,6 +504,8 @@ else
         public required string DetailsTitle { get; init; }
         public required string LocationLabel { get; init; }
         public required string LocationValue { get; init; }
+        public required string TimeLabel { get; init; }
+        public required string TimeValue { get; init; }
         public required string DressCodeLabel { get; init; }
         public required string DressCodeValue { get; init; }
         public required string CelebrationLabel { get; init; }
@@ -472,6 +513,9 @@ else
         public required string PhotoAltPrimary { get; init; }
         public required string NameLabel { get; init; }
         public required string NamePlaceholder { get; init; }
+        public required string PhoneLabel { get; init; }
+        public required string PhonePlaceholder { get; init; }
+        public required string PhoneHelp { get; init; }
         public required string GuestCountLabel { get; init; }
         public required string GuestCountHelp { get; init; }
         public required string AttendanceQuestion { get; init; }
@@ -484,6 +528,7 @@ else
         public required string ChangeLanguageLabel { get; init; }
         public required string SuccessMessage { get; init; }
         public required string NameRequiredError { get; init; }
+        public required string PhoneRequiredError { get; init; }
         public required string GuestCountRequiredError { get; init; }
         public required string GuestCountRangeError { get; init; }
         public required string AttendanceRequiredError { get; init; }
@@ -493,6 +538,7 @@ else
     private sealed class RsvpFormModel
     {
         public string? Name { get; set; }
+        public string? Phone { get; set; }
         public int? GuestCount { get; set; }
         public bool? IsAttending { get; set; }
         public string? AllergyNotes { get; set; }

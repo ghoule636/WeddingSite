@@ -201,6 +201,13 @@
     color: rgba(64, 54, 45, 0.7);
 }
 
+.hero__names[b-km39ayfmy3] {
+    margin: 0;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    font-weight: 600;
+    color: rgba(47, 42, 37, 0.9);
+}
+
 .hero__date[b-km39ayfmy3] {
     margin: 0;
     font-size: clamp(2.5rem, 6vw, 3.75rem);
@@ -219,6 +226,26 @@
     grid-template-columns: repeat(auto-fit, minmax(11.5rem, 1fr));
     gap: 1rem;
     width: 100%;
+}
+
+.hero__confirmation[b-km39ayfmy3] {
+    width: 100%;
+    background: rgba(186, 124, 88, 0.12);
+    border: 1px solid rgba(186, 124, 88, 0.35);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 12px 30px rgba(46, 35, 26, 0.08);
+}
+
+.hero__confirmation-title[b-km39ayfmy3] {
+    margin: 0 0 0.35rem 0;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.hero__confirmation-message[b-km39ayfmy3] {
+    margin: 0;
+    color: rgba(55, 45, 37, 0.8);
 }
 
 .detail-card[b-km39ayfmy3] {
@@ -258,7 +285,8 @@
 .hero__media[b-km39ayfmy3] {
     display: grid;
     gap: 1.25rem;
-    align-items: end;
+    align-items: center;
+    justify-items: center;
 }
 
 .hero__photo[b-km39ayfmy3] {
@@ -278,12 +306,7 @@
 
 .hero__photo--primary[b-km39ayfmy3] {
     aspect-ratio: 3 / 4;
-}
-
-.hero__photo--secondary[b-km39ayfmy3] {
-    aspect-ratio: 4 / 3;
-    margin-left: auto;
-    width: 88%;
+    width: min(100%, 360px);
 }
 
 @media (max-width: 900px) {
@@ -292,12 +315,7 @@
     }
 
     .hero__media[b-km39ayfmy3] {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .hero__photo--secondary[b-km39ayfmy3] {
-        width: 100%;
-        margin-left: 0;
+        justify-items: start;
     }
 }
 
@@ -456,7 +474,7 @@
 
 .rsvp__gallery[b-lxm27aalhy] {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     width: 100%;
 }
@@ -472,11 +490,6 @@
 
 .rsvp__gallery img:first-child[b-lxm27aalhy] {
     aspect-ratio: 3 / 4;
-}
-
-.rsvp__gallery img:last-child[b-lxm27aalhy] {
-    aspect-ratio: 4 / 3;
-    align-self: end;
 }
 
 .rsvp__card[b-lxm27aalhy] {
@@ -639,7 +652,4 @@ select.form-select:focus[b-lxm27aalhy] {
         text-align: center;
     }
 
-    .rsvp__gallery[b-lxm27aalhy] {
-        grid-template-columns: minmax(0, 1fr);
-    }
 }

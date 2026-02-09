@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "WeddingSite",
   "resources": {
-    "hash": "sha256-JcQiyhly6RMqO8wDvz0AwCnFHHucYYm02lx1cYYAjQA=",
+    "hash": "sha256-X0aZ/qo4ujUYLUMEHbO8/pEzTQb+M3uTxrOXI25Fk9o=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Authorization.z6jo10m0rd.wasm": "Microsoft.AspNetCore.Authorization.wasm",
       "Microsoft.AspNetCore.Components.65wbz7t8mt.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -201,8 +201,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "WeddingSite.t2a0hainak.wasm": "WeddingSite.wasm",
-      "WeddingSite.z69pk9p1dm.pdb": "WeddingSite.pdb"
+      "WeddingSite.y8vyd6i3wc.wasm": "WeddingSite.wasm",
+      "WeddingSite.2n7sjnr2hv.pdb": "WeddingSite.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.noby4tlk4d.js": "sha256-p9eEzXhQIsI0a5bBJhfzW15iRafgplTxT8XrO5FiH9o="
@@ -412,10 +412,10 @@
       "WindowsBase.i7qip04bb5.wasm": "sha256-Lg5W8BM50Cpl1dgTrG9RQOrBRKOJq6H1t5sH3yf4KDU=",
       "mscorlib.ijjuvl21w4.wasm": "sha256-ku4DyQX7IfTdwPwDlrz9odvCs4mrgsJl0fNaqY56KOI=",
       "netstandard.jgp13znru0.wasm": "sha256-I7arRnyxWh5PItslQKjzLIG7EpohJACm7p/7K8eD0YA=",
-      "WeddingSite.t2a0hainak.wasm": "sha256-+9OQ9Dgag/Hb2rv4zv2I+Y0KpI6fBnFHS+IlR+SNOlI="
+      "WeddingSite.y8vyd6i3wc.wasm": "sha256-TkigSzV/P0bxwQX4d5hkVdYp3iqQrFub2v3HC8rLP0Q="
     },
     "pdb": {
-      "WeddingSite.z69pk9p1dm.pdb": "sha256-yyJO7ME2U7pyj/C/pDQ2fRIN6QpRkLvWQ2esQlNdNUk="
+      "WeddingSite.2n7sjnr2hv.pdb": "sha256-Ugtg1TxyiIjnrOAIWLsb9TQ+R2oCq1epBvGAxXoiVwE="
     }
   },
   "cacheBootResources": true,

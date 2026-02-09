@@ -201,6 +201,13 @@
     color: rgba(64, 54, 45, 0.7);
 }
 
+.hero__names[b-km39ayfmy3] {
+    margin: 0;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    font-weight: 600;
+    color: rgba(47, 42, 37, 0.9);
+}
+
 .hero__date[b-km39ayfmy3] {
     margin: 0;
     font-size: clamp(2.5rem, 6vw, 3.75rem);

@@ -24,9 +24,9 @@
         </div>
     </section>
 }
-    else
-    {
-        <PageTitle>@CurrentContent.PageTitle</PageTitle>
+else
+{
+    <PageTitle>@CurrentContent.PageTitle</PageTitle>
 
     <section class="hero">
         <div class="hero__grid">
@@ -36,6 +36,7 @@
                 </button>
 
                 <p class="hero__eyebrow">@CurrentContent.Eyebrow</p>
+                <p class="hero__names">@CurrentContent.NamesLine</p>
                 <h1 class="hero__date">@CurrentContent.DateLine</h1>
                 <p class="hero__message">@CurrentContent.Message</p>
 
@@ -47,20 +48,27 @@
                     </div>
                 }
 
-                <div class="hero__details">
-                    <div class="detail-card">
-                        <p class="detail-card__label">@CurrentContent.LocationLabel</p>
-                        <p class="detail-card__value">@CurrentContent.LocationValue</p>
+                @if (showRsvpConfirmation)
+                {
+                    <div class="hero__details">
+                        <div class="detail-card">
+                            <p class="detail-card__label">@CurrentContent.LocationLabel</p>
+                            <p class="detail-card__value">@CurrentContent.LocationValue</p>
+                        </div>
+                        <div class="detail-card">
+                            <p class="detail-card__label">@CurrentContent.TimeLabel</p>
+                            <p class="detail-card__value">@CurrentContent.TimeValue</p>
+                        </div>
+                        <div class="detail-card">
+                            <p class="detail-card__label">@CurrentContent.DressCodeLabel</p>
+                            <p class="detail-card__value">@CurrentContent.DressCodeValue</p>
+                        </div>
+                        <div class="detail-card">
+                            <p class="detail-card__label">@CurrentContent.CelebrationLabel</p>
+                            <p class="detail-card__value">@CurrentContent.CelebrationValue</p>
+                        </div>
                     </div>
-                    <div class="detail-card">
-                        <p class="detail-card__label">@CurrentContent.DressCodeLabel</p>
-                        <p class="detail-card__value">@CurrentContent.DressCodeValue</p>
-                    </div>
-                    <div class="detail-card">
-                        <p class="detail-card__label">@CurrentContent.CelebrationLabel</p>
-                        <p class="detail-card__value">@CurrentContent.CelebrationValue</p>
-                    </div>
-                </div>
+                }
 
                 <a class="btn btn-primary btn-lg hero__cta" href="@BuildRsvpLink()">
                     @CurrentContent.CtaText
@@ -82,10 +90,13 @@
         {
             PageTitle = "You're Invited!",
             Eyebrow = "You're invited to our wedding!",
-            DateLine = "April 18 \u00B7 Hacienda La Monta\u00F1a, Cajic\u00E1",
+            NamesLine = "Vanessa & Gabriel",
+            DateLine = "April 18, 2026\u00B7 Hacienda La Monta\u00F1a, Cajic\u00E1",
             Message = "We can't wait to celebrate with you.",
             LocationLabel = "Location",
             LocationValue = "Hacienda La Monta\u00F1a, Cajic\u00E1, Cundinamarca, Colombia",
+            TimeLabel = "Time",
+            TimeValue = "3:00 PM",
             DressCodeLabel = "Dress code",
             DressCodeValue = "Formal attire",
             CelebrationLabel = "Celebration",
@@ -100,10 +111,13 @@
         {
             PageTitle = "\u00A1Est\u00E1s invitado!",
             Eyebrow = "\u00A1Est\u00E1s invitado a nuestra boda!",
-            DateLine = "18 de abril \u00B7 Hacienda La Monta\u00F1a, Cajic\u00E1",
+            NamesLine = "Vanessa y Gabriel",
+            DateLine = "18 de Abril, 2026 \u00B7 Hacienda La Monta\u00F1a, Cajic\u00E1",
             Message = "No vemos la hora de celebrar contigo.",
             LocationLabel = "Ubicaci\u00F3n",
             LocationValue = "Hacienda La Monta\u00F1a, Cajic\u00E1, Cundinamarca, Colombia",
+            TimeLabel = "Hora",
+            TimeValue = "3:00 p. m.",
             DressCodeLabel = "C\u00F3digo de vestimenta",
             DressCodeValue = "Traje de gala",
             CelebrationLabel = "Celebraci\u00F3n",
@@ -136,7 +150,7 @@
         }
 
         showRsvpConfirmation = string.Equals(rsvpStatus, "success", StringComparison.OrdinalIgnoreCase)
-            && selectedLanguage is not null;
+        && selectedLanguage is not null;
     }
 
     private void SetLanguage(string language)
@@ -163,10 +177,13 @@
     {
         public required string PageTitle { get; init; }
         public required string Eyebrow { get; init; }
+        public required string NamesLine { get; init; }
         public required string DateLine { get; init; }
         public required string Message { get; init; }
         public required string LocationLabel { get; init; }
         public required string LocationValue { get; init; }
+        public required string TimeLabel { get; init; }
+        public required string TimeValue { get; init; }
         public required string DressCodeLabel { get; init; }
         public required string DressCodeValue { get; init; }
         public required string CelebrationLabel { get; init; }
