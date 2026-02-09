@@ -104,7 +104,8 @@ else
                     {
                         <div class="rsvp__field">
                             <label class="rsvp__label" for="guestCount">@CurrentContent.GuestCountLabel</label>
-                            <InputNumber id="guestCount" class="form-control" @bind-Value="formModel.GuestCount" min="0" max="12" />
+                            <InputNumber id="guestCount" class="form-control" @bind-Value="formModel.GuestCount" min="0"
+                                max="12" />
                             <small class="rsvp__help">@CurrentContent.GuestCountHelp</small>
                             <ValidationMessage For="() => formModel.GuestCount" />
                         </div>
@@ -112,7 +113,8 @@ else
                         <div class="rsvp__field">
                             <label class="rsvp__label" for="allergies">@CurrentContent.AllergyLabel</label>
                             <InputTextArea id="allergies" class="form-control rsvp__textarea"
-                                placeholder="@CurrentContent.AllergyPlaceholder" @bind-Value="formModel.AllergyNotes" rows="3" />
+                                placeholder="@CurrentContent.AllergyPlaceholder" @bind-Value="formModel.AllergyNotes"
+                                rows="3" />
                             <small class="rsvp__help">@CurrentContent.AllergyHelp</small>
                             <ValidationMessage For="() => formModel.AllergyNotes" />
                         </div>
@@ -147,7 +149,7 @@ else
             LocationLabel = "Location",
             LocationValue = "Hacienda La Monta\u00F1a, Km 1.7 v\u00EDa Manas Molino, vereda Chuntame, Cajic\u00E1, Cundinamarca, Colombia",
             TimeLabel = "Time",
-            TimeValue = "3:00 PM",
+            TimeValue = "3:00 p.m.",
             DressCodeLabel = "Dress code",
             DressCodeValue = "Formal attire",
             CelebrationLabel = "Celebration",
@@ -185,7 +187,7 @@ else
             LocationLabel = "Ubicaci\u00F3n",
             LocationValue = "Hacienda La Monta\u00F1a, Km 1.7 v\u00EDa Manas Molino, vereda Chuntame, Cajic\u00E1, Cundinamarca, Colombia",
             TimeLabel = "Hora",
-            TimeValue = "3:00 p. m.",
+            TimeValue = "3:00 p.m.",
             DressCodeLabel = "C\u00F3digo de vestimenta",
             DressCodeValue = "Traje de gala",
             CelebrationLabel = "Celebraci\u00F3n",
@@ -218,9 +220,9 @@ else
 
     private RsvpFormModel formModel = new();
     private EditContext? editContext;
-   private ValidationMessageStore? messageStore;
-   private string? selectedLanguage;
-   private string? submissionStatus;
+    private ValidationMessageStore? messageStore;
+    private string? selectedLanguage;
+    private string? submissionStatus;
     private bool isSubmitting;
     private bool submissionError;
 
@@ -335,8 +337,8 @@ else
         var trimmedName = formModel.Name?.Trim() ?? string.Empty;
         var trimmedPhone = formModel.Phone?.Trim() ?? string.Empty;
         var allergyNotes = string.IsNullOrWhiteSpace(formModel.AllergyNotes)
-            ? null
-            : formModel.AllergyNotes.Trim();
+        ? null
+        : formModel.AllergyNotes.Trim();
 
         return new RsvpRequestPayload
         {
