@@ -50,6 +50,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             created_utc INTEGER NOT NULL,
             name TEXT NOT NULL,
+            phone TEXT,
             attending INTEGER NOT NULL, -- 0/1
             guest_count INTEGER,
             notes TEXT,
@@ -62,6 +63,8 @@ def init_db():
     }
     if "guest_count" not in existing_columns:
         db.execute("ALTER TABLE rsvps ADD COLUMN guest_count INTEGER")
+    if "phone" not in existing_columns:
+        db.execute("ALTER TABLE rsvps ADD COLUMN phone TEXT")
     if "language" not in existing_columns:
         db.execute("ALTER TABLE rsvps ADD COLUMN language TEXT")
     db.commit()
@@ -89,6 +92,12 @@ def rsvp():
     if not name:
         app.logger.warning("RSVP rejected | ip=%s | reason=missing name", remote_addr)
         return jsonify({"error": "Name required"}), 400
+
+    phone = (data.get("phone") or data.get("Phone") or "").strip()
+    if not phone:
+        app.logger.warning("RSVP rejected | ip=%s | name=%s | reason=missing phone", remote_addr, name)
+        return jsonify({"error": "Phone required"}), 400
+    phone = phone[:50]
 
     attending_raw = data.get("isAttending")
     if attending_raw is None and "Attending" in data:
@@ -134,10 +143,10 @@ def rsvp():
         db = get_db()
         db.execute(
             """
-                INSERT INTO rsvps (created_utc, name, attending, guest_count, notes, language)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO rsvps (created_utc, name, phone, attending, guest_count, notes, language)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
-            (int(time.time()), name, attending, guest_count, notes, language),
+            (int(time.time()), name, phone, attending, guest_count, notes, language),
         )
         db.commit()
     except Exception:
@@ -145,9 +154,10 @@ def rsvp():
         return jsonify({"error": "Unable to save RSVP right now"}), 500
 
     app.logger.info(
-        "RSVP stored | ip=%s | name=%s | attending=%s | guest_count=%s | language=%s",
+        "RSVP stored | ip=%s | name=%s | phone=%s | attending=%s | guest_count=%s | language=%s",
         remote_addr,
         name,
+        phone,
         bool(attending),
         guest_count if guest_count is not None else "n/a",
         language or "n/a",
@@ -170,17 +180,17 @@ def export_csv():
     init_db()
     db = get_db()
     rows = db.execute(
-        "SELECT created_utc, name, attending, guest_count, notes, language FROM rsvps ORDER BY id ASC"
+        "SELECT created_utc, name, phone, attending, guest_count, notes, language FROM rsvps ORDER BY id ASC"
     ).fetchall()
     remote_addr = request.headers.get("CF-Connecting-IP") or request.remote_addr or "-"
     app.logger.info("Admin export requested | ip=%s | rows=%s", remote_addr, len(rows))
 
     output = io.StringIO()
     writer = csv.writer(output)
-    writer.writerow(["utc", "name", "attending", "guest_count", "notes", "language"])
+    writer.writerow(["utc", "name", "phone", "attending", "guest_count", "notes", "language"])
     for r in rows:
         writer.writerow(
-            [r["created_utc"], r["name"], r["attending"], r["guest_count"], r["notes"], r["language"]]
+            [r["created_utc"], r["name"], r["phone"], r["attending"], r["guest_count"], r["notes"], r["language"]]
         )
     csv_bytes = output.getvalue()
 
