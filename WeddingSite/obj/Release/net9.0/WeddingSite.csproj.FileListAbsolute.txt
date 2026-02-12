@@ -1076,10 +1076,10 @@ C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\0f46s6pxbk-f5mfssf3vz.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\pb2gyb6xqw-hpwpe2mnai.gz
 C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ql4yks4gxh-hpwpe2mnai.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.h9v1pk7lfv.wasm
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.3m1hjea7gt.pdb
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.h9v1pk7lfv.wasm.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.3m1hjea7gt.pdb.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ddr78scvg1-h9v1pk7lfv.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\34em1ocnbc-3m1hjea7gt.gz
-C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\z0wwoa6lwg-9mbuyvc47w.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.1ii8yrz2ht.wasm
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.ubk5y80d9e.pdb
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.1ii8yrz2ht.wasm.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\bin\Release\net9.0\wwwroot\_framework\WeddingSite.ubk5y80d9e.pdb.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\ddr78scvg1-1ii8yrz2ht.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\34em1ocnbc-ubk5y80d9e.gz
+C:\Users\Gabe\Development\WeddingSite\WeddingSite\obj\Release\net9.0\compressed\z0wwoa6lwg-xwawxfb4r4.gz

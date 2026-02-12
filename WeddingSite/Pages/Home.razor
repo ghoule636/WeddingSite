@@ -67,6 +67,13 @@ else
                             <p class="detail-card__label">@CurrentContent.CelebrationLabel</p>
                             <p class="detail-card__value">@CurrentContent.CelebrationValue</p>
                         </div>
+                        @if (!string.IsNullOrWhiteSpace(CurrentContent.GiftValue))
+                        {
+                            <div class="detail-card">
+                                <p class="detail-card__label">@CurrentContent.GiftLabel</p>
+                                <p class="detail-card__value">@CurrentContent.GiftValue</p>
+                            </div>
+                        }
                     </div>
                 }
 
@@ -101,6 +108,8 @@ else
             DressCodeValue = "Formal attire",
             CelebrationLabel = "Celebration",
             CelebrationValue = "Reception and party at the same venue.",
+            GiftLabel = "",
+            GiftValue = "",
             PhotoAltPrimary = "The couple standing together in a forest.",
             RsvpConfirmationTitle = "Thanks! We received your RSVP.",
             RsvpConfirmationMessage = "Review the details below and update us if anything changes.",
@@ -122,6 +131,8 @@ else
             DressCodeValue = "Traje de gala",
             CelebrationLabel = "Celebraci\u00F3n",
             CelebrationValue = "Recepci\u00F3n y fiesta en el mismo lugar.",
+            GiftLabel = "Regalos",
+            GiftValue = "Lluvia de sobres.",
             PhotoAltPrimary = "La pareja junta en un bosque.",
             RsvpConfirmationTitle = "\u00A1Gracias! Recibimos tu confirmaci\u00F3n.",
             RsvpConfirmationMessage = "Revisa los detalles a continuaci\u00F3n y av\u00EDsanos si algo cambia.",
@@ -188,6 +199,8 @@ else
         public required string DressCodeValue { get; init; }
         public required string CelebrationLabel { get; init; }
         public required string CelebrationValue { get; init; }
+        public required string GiftLabel { get; init; }
+        public required string GiftValue { get; init; }
         public required string PhotoAltPrimary { get; init; }
         public required string RsvpConfirmationTitle { get; init; }
         public required string RsvpConfirmationMessage { get; init; }
